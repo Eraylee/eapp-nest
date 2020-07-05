@@ -30,6 +30,7 @@ export class BaseEntity {
   @Column({
     type: 'varchar',
     length: 50,
+    nullable: true,
     comment: '描述',
   })
   description: string;
