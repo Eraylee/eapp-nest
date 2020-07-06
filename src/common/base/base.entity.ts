@@ -5,7 +5,7 @@ import {
   DeleteDateColumn,
   Column,
 } from 'typeorm';
-import { Enabled } from '../enums';
+import { Enabled } from '../enum';
 
 export class BaseEntity {
   @PrimaryGeneratedColumn()
