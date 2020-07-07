@@ -1,7 +1,9 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { UserService } from '@/app/system/user/user.service';
 import { JwtService } from '@nestjs/jwt';
 import { LoginDto } from './auth.dto';
+import { JwtPayload } from './jwt-payload.interface';
+import { UserEntity } from '../system/user/user.entity';
 
 @Injectable()
 export class AuthService {
@@ -14,13 +16,8 @@ export class AuthService {
    * @param username
    * @param pass
    */
-  async validateUser(username: string, pass: string): Promise<any> {
-    const user = await this.userService.findOne(username);
-    if (user && user.password === pass) {
-      const { password, ...result } = user;
-      return result;
-    }
-    return null;
+  async validateUser(params: JwtPayload): Promise<UserEntity> {
+    return this.userService.get(params.id);
   }
 
   /**
@@ -28,7 +25,18 @@ export class AuthService {
    * @param user
    */
   async login(params: LoginDto): Promise<string> {
-    const payload = { username: params.username };
-    return this.jwtService.sign(payload);
+    const user = await this.userService.validate(
+      params.username,
+      params.password,
+    );
+    if (!user) {
+      throw new UnauthorizedException('用户名或密码错误');
+    }
+    return this.jwtService.sign({
+      id: user.id,
+      username: user.username,
+      roleCode: 'd',
+      nickname: user.nickname,
+    });
   }
 }

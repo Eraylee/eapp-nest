@@ -1,10 +1,11 @@
-import { Controller, Body, Post, Query, Get } from '@nestjs/common';
+import { Controller, Body, Post, Query, Get, UseGuards } from '@nestjs/common';
 import { UserService } from './user.service';
 import { UserEntity } from './user.entity';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { QueryUserDto, CreateUserDto, UpdateUserDto } from './user.dto';
 import { DeleteDto } from '@/common/base/base.dto';
 import { DeleteResult } from 'typeorm';
+import { JwtAuthGuard } from '@/guard/auth.guard';
 
 @Controller()
 @ApiTags('user')
@@ -34,8 +35,9 @@ export class UserController {
    */
   @ApiOperation({ summary: '新增' })
   @Post('create')
+  @UseGuards(JwtAuthGuard)
   async create(@Body() params: CreateUserDto): Promise<UserEntity> {
-    return await this.service.create(params);
+    return await this.service.createUser(params);
   }
 
   /**

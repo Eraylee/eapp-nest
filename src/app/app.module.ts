@@ -5,7 +5,9 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import * as path from 'path';
 import { routes } from './routes';
 import { SystemModule } from './system/system.model';
-import { AuthService } from './auth/auth.service';
+import { AuthModule } from './auth/auth.module';
+import { LoggingInterceptor } from '@/interceptor/logging.interceptor';
+import { APP_INTERCEPTOR } from '@nestjs/core';
 
 const ENV = process.env.NODE_ENV;
 
@@ -13,7 +15,7 @@ const ENV = process.env.NODE_ENV;
   imports: [
     RouterModule.forRoutes(routes),
     SystemModule,
-    AuthService,
+    AuthModule,
     ConfigModule.load(
       path.resolve(__dirname, '../config', '**/!(*.d).{ts,js}'),
       {
@@ -24,6 +26,12 @@ const ENV = process.env.NODE_ENV;
       useFactory: (config: ConfigService) => config.get('database'),
       inject: [ConfigService],
     }),
+  ],
+  providers: [
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: LoggingInterceptor,
+    },
   ],
 })
 export class AppModule {}
