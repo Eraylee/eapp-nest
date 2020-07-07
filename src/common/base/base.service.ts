@@ -1,6 +1,6 @@
 import { NotFoundException } from '@nestjs/common';
 import { DeleteResult, Repository } from 'typeorm';
-import { PaginationDto } from './dto';
+import { PaginationDto, DeleteDto } from './base.dto';
 import { PaginationResult } from '../interface/result.interface';
 import { OrderTypes } from '../enum';
 
@@ -21,7 +21,9 @@ export abstract class BaseService<T> {
    * 分页查询
    * @param query
    */
-  public async getPage(query: PaginationDto): Promise<PaginationResult<T>> {
+  public async getPage<D extends PaginationDto>(
+    query: D,
+  ): Promise<PaginationResult<T>> {
     const take = query.pageSize ?? 10;
     const page = query.pageNum ?? 1;
     const skip = take * (page - 1);
@@ -66,7 +68,7 @@ export abstract class BaseService<T> {
    * 删除
    * @param ids
    */
-  public async delete(ids: number[]): Promise<DeleteResult> {
-    return this.repo.delete(ids);
+  public async delete(params: DeleteDto): Promise<DeleteResult> {
+    return this.repo.delete(params.ids);
   }
 }
