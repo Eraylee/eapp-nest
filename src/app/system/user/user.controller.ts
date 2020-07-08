@@ -1,14 +1,16 @@
 import { Controller, Body, Post, Query, Get, UseGuards } from '@nestjs/common';
 import { UserService } from './user.service';
 import { UserEntity } from './user.entity';
-import { ApiOperation, ApiTags } from '@nestjs/swagger';
+import { ApiOperation, ApiTags, ApiBearerAuth } from '@nestjs/swagger';
 import { QueryUserDto, CreateUserDto, UpdateUserDto } from './user.dto';
 import { DeleteDto } from '@/common/base/base.dto';
 import { DeleteResult } from 'typeorm';
-import { JwtAuthGuard } from '@/guard/auth.guard';
+import { JwtAuthGuard } from '@/app/auth/guards/jwt-auth.guard';
+import { PaginationResult } from '@/interfaces/result.interface';
 
 @Controller()
 @ApiTags('user')
+@ApiBearerAuth()
 export class UserController {
   constructor(private service: UserService) {}
   /**
@@ -26,8 +28,10 @@ export class UserController {
    */
   @ApiOperation({ summary: '分页查询' })
   @Get('queryPage')
-  async queryPage(@Query() params: QueryUserDto): Promise<UserEntity> {
-    return await this.service.create(params);
+  async queryPage(
+    @Query() params: QueryUserDto,
+  ): Promise<PaginationResult<UserEntity>> {
+    return await this.service.getPage(params);
   }
   /**
    * 新增
@@ -39,7 +43,6 @@ export class UserController {
   async create(@Body() params: CreateUserDto): Promise<UserEntity> {
     return await this.service.createUser(params);
   }
-
   /**
    * 修改
    * @param user
@@ -47,7 +50,7 @@ export class UserController {
   @ApiOperation({ summary: '修改' })
   @Post('update')
   async update(@Body() params: UpdateUserDto): Promise<UserEntity> {
-    return await this.service.update(1, params);
+    return await this.service.update(params);
   }
   /**
    * 删除

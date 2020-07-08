@@ -5,7 +5,6 @@ import {
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { Observable } from 'rxjs';
-import { UserEntity } from '@/app/system/user/user.entity';
 
 @Injectable()
 export class JwtAuthGuard extends AuthGuard('jwt') {
@@ -17,10 +16,11 @@ export class JwtAuthGuard extends AuthGuard('jwt') {
     return super.canActivate(context);
   }
 
-  handleRequest(err, user, info): any {
+  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+  handleRequest(err: any, user: any, _info: any): any {
     // You can throw an exception based on either "info" or "err" arguments
     if (err || !user) {
-      throw err || new UnauthorizedException();
+      throw new UnauthorizedException(_info['message']);
     }
     return user;
   }

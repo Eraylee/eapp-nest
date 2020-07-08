@@ -1,11 +1,4 @@
-import {
-  IsNotEmpty,
-  IsPhoneNumber,
-  IsEmail,
-  MaxLength,
-  Length,
-  max,
-} from 'class-validator';
+import { IsNotEmpty, IsPhoneNumber, IsEmail, Length } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 import { UserEntity } from './user.entity';
 import { PaginationDto } from '@/common/base/base.dto';
@@ -15,22 +8,26 @@ import { PaginationDto } from '@/common/base/base.dto';
 export class QueryUserDto extends PaginationDto implements Partial<UserEntity> {
   @ApiProperty({
     description: '用户名',
+    required: false,
   })
   username: string;
 
   @IsNotEmpty()
   @ApiProperty({
     description: '昵称',
+    required: false,
   })
   nickname: string;
 
   @ApiProperty({
     description: '手机号码',
+    required: false,
   })
   phone: string;
 
   @ApiProperty({
     description: '邮箱',
+    required: false,
   })
   email: string;
 }
@@ -69,6 +66,12 @@ export class CreateUserDto implements Partial<UserEntity> {
 
 export class UpdateUserDto implements Partial<UserEntity> {
   @ApiProperty({
+    description: '用户id',
+  })
+  @IsNotEmpty()
+  id: number;
+
+  @ApiProperty({
     description: '昵称',
   })
   nickname: string;
@@ -88,6 +91,12 @@ export class UpdateUserDto implements Partial<UserEntity> {
 
 export class ResetPswDto {
   @ApiProperty({
+    description: '用户id',
+  })
+  @IsNotEmpty()
+  id: number;
+
+  @ApiProperty({
     description: '原始密码',
   })
   @IsNotEmpty()
@@ -99,3 +108,4 @@ export class ResetPswDto {
   @IsNotEmpty()
   newPassword: string;
 }
+

@@ -18,18 +18,13 @@ export class LoggingInterceptor implements NestInterceptor {
     const method = req.method;
     const url = req.url;
     return next.handle().pipe(
-      tap(
-        () => {
-          new Logger(`RESTful:${context.getClass().name}`).log(
-            `来源 ip:${req.ip} 请求方法:${method} 请求路径:${url} 处理成功`,
-          );
-        },
-        () => {
-          new Logger(`RESTful:${context.getClass().name}`).error(
-            `来源 ip:${req.ip} 请求方法:${method} 请求路径:${url} 处理失败`,
-          );
-        },
-      ),
+      tap(res => {
+        new Logger(`RESTful:${context.getClass().name}`).log(
+          `来源 ip:${
+            req.ip
+          } 请求方法:${method} 请求路径:${url} 处理成功 ${JSON.stringify(res)}`,
+        );
+      }),
     );
   }
 }

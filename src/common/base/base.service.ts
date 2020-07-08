@@ -1,8 +1,8 @@
 import { NotFoundException } from '@nestjs/common';
 import { DeleteResult, Repository } from 'typeorm';
 import { PaginationDto, DeleteDto } from './base.dto';
-import { PaginationResult } from '../interface/result.interface';
-import { OrderTypes } from '../enum';
+import { PaginationResult } from '../../interfaces/result.interface';
+import { OrderTypes } from '../../enums';
 
 export abstract class BaseService<T> {
   protected constructor(protected readonly repo: Repository<T>) {}
@@ -59,8 +59,8 @@ export abstract class BaseService<T> {
    * @param id
    * @param dto
    */
-  public async update<D>(id: number, dto: D): Promise<T> {
-    const res = await this.get(id);
+  public async update<D extends { id: number }>(dto: D): Promise<T> {
+    const res = await this.get(dto.id);
     Object.assign(res, dto);
     return await this.repo.save(res);
   }

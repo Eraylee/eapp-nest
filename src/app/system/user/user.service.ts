@@ -4,7 +4,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import * as crypto from 'crypto';
 import { BaseService } from '@/common/base/base.service';
-import { CreateUserDto } from './user.dto';
+import { CreateUserDto, ResetPswDto } from './user.dto';
 import { ConfigService, InjectConfig } from 'nestjs-config';
 
 @Injectable()
@@ -15,15 +15,15 @@ export class UserService extends BaseService<UserEntity> {
   ) {
     super(repo);
   }
-/**
- * 验证用户
- * @param username 
- * @param password 
- */
+  /**
+   * 验证用户
+   * @param username
+   * @param password
+   */
   public async validate(
     username: string,
     password: string,
-  ): Promise<UserEntity> {
+  ): Promise<UserEntity | undefined> {
     return this.repo.findOne({
       username,
       password: this.buildPassword(password),
@@ -45,7 +45,21 @@ export class UserService extends BaseService<UserEntity> {
     Object.assign(user, { ...params, password });
     return this.repo.save(user);
   }
-
+  /**
+   * 重置密码
+   * @param params
+   */
+  public async resetPassWord(params: ResetPswDto): Promise<UserEntity> {
+    const user = await this.repo.findOne(params.id);
+    if (!user) {
+      throw new BadRequestException('用户不存在');
+    }
+    const password = this.buildPassword(
+      this.config.get('app.DEFAULT_PASSWORD'),
+    );
+    Object.assign(user, { password });
+    return this.repo.save(user);
+  }
   /**
    * 加密密码
    * @param password
@@ -53,4 +67,12 @@ export class UserService extends BaseService<UserEntity> {
   private buildPassword(password: string): string {
     return crypto.createHmac('sha256', password).digest('hex');
   }
+
+  // public async updateProfile(payload: JwtPayload , params : UpdateUserDto ): Promise<UserEntity> {
+  //   const user = await this.repo.findOne(payload.id);
+  //   if (!user) {
+  //     throw new BadRequestException('用户不存在');
+  //   }
+  //   const {} =
+  // }
 }

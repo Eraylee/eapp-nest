@@ -1,7 +1,7 @@
 import { IsArray, IsNumber, IsEnum } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 import { Transform } from 'class-transformer';
-import { OrderTypes } from '@/common/enum';
+import { OrderTypes } from '@/enums';
 
 /**
  * 批量删除
