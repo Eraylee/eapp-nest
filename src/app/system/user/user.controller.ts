@@ -1,4 +1,12 @@
-import { Controller, Body, Post, Query, Get, UseGuards } from '@nestjs/common';
+import {
+  Controller,
+  Body,
+  Request,
+  Post,
+  Query,
+  Get,
+  UseGuards,
+} from '@nestjs/common';
 import { UserService } from './user.service';
 import { UserEntity } from './user.entity';
 import { ApiOperation, ApiTags, ApiBearerAuth } from '@nestjs/swagger';
@@ -60,5 +68,19 @@ export class UserController {
   @Post('delete')
   async delete(@Body() params: DeleteDto): Promise<DeleteResult> {
     return await this.service.delete(params);
+  }
+
+  /**
+   * 修改个人信息
+   * @param req
+   * @param params
+   */
+  @ApiOperation({ summary: '修改个人信息' })
+  @Post('updateProfile')
+  async updateProfile(
+    @Request() req: Request,
+    @Body() params: UpdateUserDto,
+  ): Promise<UserEntity> {
+    return await this.service.updateProfile(req['user'], params);
   }
 }

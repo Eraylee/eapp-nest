@@ -2,10 +2,12 @@ import { Injectable, BadRequestException } from '@nestjs/common';
 import { UserEntity } from './user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+// import pick from 'lodash/pick'
 import * as crypto from 'crypto';
 import { BaseService } from '@/common/base/base.service';
-import { CreateUserDto, ResetPswDto } from './user.dto';
+import { CreateUserDto, ResetPswDto, UpdateUserDto } from './user.dto';
 import { ConfigService, InjectConfig } from 'nestjs-config';
+import { JwtPayload } from '@/app/auth/jwt-payload.interface';
 
 @Injectable()
 export class UserService extends BaseService<UserEntity> {
@@ -68,11 +70,21 @@ export class UserService extends BaseService<UserEntity> {
     return crypto.createHmac('sha256', password).digest('hex');
   }
 
-  // public async updateProfile(payload: JwtPayload , params : UpdateUserDto ): Promise<UserEntity> {
-  //   const user = await this.repo.findOne(payload.id);
-  //   if (!user) {
-  //     throw new BadRequestException('用户不存在');
-  //   }
-  //   const {} =
-  // }
+  /**
+   * 更新个人用户信息
+   * @param payload
+   * @param params
+   */
+  public async updateProfile(
+    payload: JwtPayload,
+    params: UpdateUserDto,
+  ): Promise<UserEntity> {
+    const user = await this.repo.findOne(payload.id);
+    if (!user) {
+      throw new BadRequestException('用户不存在');
+    }
+    const { nickname, phone, email } = params;
+    Object.assign(user, { nickname, phone, email });
+    return this.repo.save(user);
+  }
 }
