@@ -1,4 +1,3 @@
-import * as _ from 'lodash';
 import * as Path from 'path';
 import * as Log4js from 'log4js';
 import * as Util from 'util';
@@ -6,12 +5,10 @@ import dayjs from 'dayjs';
 import * as StackTrace from 'stacktrace-js';
 import Chalk from 'chalk';
 
+const baseLogPath = Path.resolve(__dirname, '../../logs'); // 日志写入目录
 
-const baseLogPath = Path.resolve(
-  __dirname,
- "../logs",
-); // 日志写入目录
-console.log("process.env.LOG_FILE_PATH", baseLogPath)
+console.log('process.env.LOG_FILE_PATH', baseLogPath);
+
 // 日志级别
 export enum LoggerLevel {
   ALL = 'ALL',
@@ -24,7 +21,7 @@ export enum LoggerLevel {
   FATAL = 'FATAL',
   OFF = 'OFF',
 }
-
+// 内容跟踪类
 export class ContextTrace {
   constructor(
     public readonly context: string,
@@ -34,7 +31,7 @@ export class ContextTrace {
   ) {}
 }
 
-Log4js.addLayout('nest-admin', (logConfig: any) => {
+Log4js.addLayout('nest', (logConfig: any) => {
   return (logEvent: Log4js.LoggingEvent): string => {
     let moduleName = '';
     let position = '';
@@ -102,15 +99,14 @@ Log4js.addLayout('nest-admin', (logConfig: any) => {
 Log4js.configure({
   appenders: {
     console: {
-      type: 'console', // 打印到控制台
-      layout: { type: 'Love-service' },
+      type: 'console', // 会打印到控制台
     },
     access: {
-      type: 'dateFile', // 写入文件，并按日期分类
-      filename: `${baseLogPath}/access/access.log`, // 日志文件名 access.20200220.log
+      type: 'dateFile', // 会写入文件，并按照日期分类
+      filename: `${baseLogPath}/access/access.log`, // 日志文件名，会命名为：access.20200320.log
       alwaysIncludePattern: true,
       pattern: 'yyyyMMdd',
-      daysToKeep: 60, // 日志保存天数
+      daysToKeep: 60,
       numBackups: 3,
       category: 'http',
       keepFileExt: true, // 是否保留文件后缀
@@ -156,7 +152,7 @@ Log4js.configure({
   categories: {
     default: {
       appenders: ['console', 'app', 'errors'],
-      level: 'debug',
+      level: 'DEBUG',
     },
     info: { appenders: ['console', 'app', 'errors'], level: 'info' },
     access: { appenders: ['console', 'app', 'errors'], level: 'info' },
@@ -203,7 +199,7 @@ export class Elog {
     logger.fatal(Elog.getStackTrace(), ...args);
   }
 
-  static access(...args) {
+  static access(...args): void {
     const loggerCustom = Log4js.getLogger('http');
     loggerCustom.info(Elog.getStackTrace(), ...args);
   }
@@ -212,7 +208,6 @@ export class Elog {
   static getStackTrace(deep = 2): string {
     const stackList: StackTrace.StackFrame[] = StackTrace.getSync();
     const stackInfo: StackTrace.StackFrame = stackList[deep];
-
     const lineNumber: number = stackInfo.lineNumber;
     const columnNumber: number = stackInfo.columnNumber;
     const fileName: string = stackInfo.fileName;

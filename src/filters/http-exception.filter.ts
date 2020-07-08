@@ -3,9 +3,9 @@ import {
   Catch,
   ArgumentsHost,
   HttpException,
-  Logger,
 } from '@nestjs/common';
 import { Request, Response } from 'express';
+import { Elog } from '@/utils/elog.util';
 
 @Catch(HttpException)
 export class HttpExceptionFilter implements ExceptionFilter {
@@ -28,11 +28,16 @@ export class HttpExceptionFilter implements ExceptionFilter {
       message,
       data: null,
     };
-    Logger.error(
-      `来源 ip:${request.ip} 请求方法:${request.method} 请求路径:${
-        request.url
-      } 处理失败 ${JSON.stringify(json)}`,
-    );
+    const logFormat = `
+    ------------------------------------------------------------------
+          Request url: ${request.url}
+          Method: ${request.method}
+          Status：${status}
+          IP: ${request.ip}
+          res : ${JSON.stringify(res)}
+    -------------------------------------------------------------------
+  `;
+    Elog.error(logFormat);
     response.status(status).json(json);
   }
 }

@@ -1,4 +1,4 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { UserService } from '@/app/system/user/user.service';
 import { JwtService } from '@nestjs/jwt';
 import { LoginDto } from './auth.dto';
@@ -21,7 +21,7 @@ export class AuthService {
       params.password,
     );
     if (!user) {
-      throw new UnauthorizedException('用户名或密码错误');
+      return null;
     }
     return {
       id: user.id,

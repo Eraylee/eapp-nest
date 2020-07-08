@@ -5,7 +5,6 @@ import { ValidationPipe, Logger } from '@nestjs/common';
 import { HttpExceptionFilter } from './filters/http-exception.filter';
 import { LoggingInterceptor } from './interceptors/logging.interceptor';
 import { TransformInterceptor } from './interceptors/transform.interceptor';
-import { ElogMiddleware } from './middlewares/elog.middleware';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -18,7 +17,6 @@ async function bootstrap() {
     }),
   );
   initSwagger(app);
-  app.use(new ElogMiddleware().use);
   app.useGlobalInterceptors(new LoggingInterceptor());
   app.useGlobalInterceptors(new TransformInterceptor());
   app.useGlobalFilters(new HttpExceptionFilter());

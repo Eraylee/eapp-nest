@@ -5,8 +5,8 @@ import {
   ExecutionContext,
   Injectable,
   NestInterceptor,
-  Logger,
 } from '@nestjs/common';
+import { Elog } from '@/utils/elog.util';
 
 @Injectable()
 export class LoggingInterceptor implements NestInterceptor {
@@ -15,15 +15,19 @@ export class LoggingInterceptor implements NestInterceptor {
     next: CallHandler,
   ): Observable<any> {
     const req = context.switchToHttp().getRequest();
-    const method = req.method;
-    const url = req.url;
     return next.handle().pipe(
       tap(res => {
-        new Logger(`RESTful:${context.getClass().name}`).log(
-          `来源 ip:${
-            req.ip
-          } 请求方法:${method} 请求路径:${url} 处理成功 ${JSON.stringify(res)}`,
-        );
+        const logFormat = `
+        ------------------------------------------------------------------
+              Request url: ${req.url}
+              Method: ${req.method}
+              IP: ${req.ip}
+              Status：${200}
+              res : ${JSON.stringify(res)}
+        -------------------------------------------------------------------
+      `;
+        Elog.access(logFormat);
+        Elog.log(logFormat);
       }),
     );
   }
