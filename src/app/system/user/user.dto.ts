@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsPhoneNumber, IsEmail, Length } from 'class-validator';
+import { IsNotEmpty, IsPhoneNumber, IsEmail, Length, IsArray } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 import { UserEntity } from './user.entity';
 import { PaginationDto } from '@/common/base/base.dto';
@@ -62,6 +62,12 @@ export class CreateUserDto implements Partial<UserEntity> {
   })
   @IsEmail()
   email: string;
+
+  @ApiProperty({
+    description: '角色ids',
+  })
+  @IsArray()
+  roleIds : number[]
 }
 
 export class UpdateUserDto implements Partial<UserEntity> {
@@ -87,6 +93,12 @@ export class UpdateUserDto implements Partial<UserEntity> {
   })
   @IsEmail()
   email: string;
+
+  @ApiProperty({
+    description: '角色ids',
+  })
+  @IsArray()
+  roleIds : number[]
 }
 
 export class ResetPswDto {

@@ -1,5 +1,6 @@
-import { Column, Entity } from 'typeorm';
+import { Column, Entity, ManyToMany, JoinTable } from 'typeorm';
 import { BaseEntity } from '@/common/base/base.entity';
+import { RoleEntity } from '../role/role.entity';
 
 @Entity('user')
 export class UserEntity extends BaseEntity {
@@ -20,4 +21,14 @@ export class UserEntity extends BaseEntity {
 
   @Column({ type: 'varchar', length: 50, nullable: true })
   avatar: string;
+
+  @ManyToMany(() => RoleEntity, {
+    cascade: true,
+    onDelete: 'SET NULL',
+    onUpdate: 'CASCADE',
+    eager: true,
+    nullable: true,
+  })
+  @JoinTable()
+  roles: RoleEntity[];
 }

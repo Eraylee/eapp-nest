@@ -21,7 +21,7 @@ export class TransformInterceptor<T>
     return next.handle().pipe(
       map(data => ({
         code: 200,
-        data,
+        data: data ?? null,
         message: '成功',
       })),
       catchError(err => throwError(err)),

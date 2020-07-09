@@ -8,12 +8,15 @@ import { BaseService } from '@/common/base/base.service';
 import { CreateUserDto, ResetPswDto, UpdateUserDto } from './user.dto';
 import { ConfigService, InjectConfig } from 'nestjs-config';
 import { JwtPayload } from '@/app/auth/jwt-payload.interface';
+import { RoleEntity } from '../role/role.entity';
 
 @Injectable()
 export class UserService extends BaseService<UserEntity> {
   constructor(
     @InjectRepository(UserEntity) readonly repo: Repository<UserEntity>,
     @InjectConfig() private readonly config: ConfigService,
+    @InjectRepository(RoleEntity)
+    private readonly roleRepe: Repository<RoleEntity>,
   ) {
     super(repo);
   }
@@ -41,10 +44,14 @@ export class UserService extends BaseService<UserEntity> {
       throw new BadRequestException('用户已存在');
     }
     const user = new UserEntity();
+    let roles = [];
+    if (params.roleIds) {
+      roles = await this.roleRepe.findByIds(params.roleIds);
+    }
     const password = this.buildPassword(
       this.config.get('app.DEFAULT_PASSWORD'),
     );
-    Object.assign(user, { ...params, password });
+    Object.assign(user, { ...params, password, roles });
     return this.repo.save(user);
   }
   /**

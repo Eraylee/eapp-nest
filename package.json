@@ -31,6 +31,7 @@
     "@types/lodash": "^4.14.157",
     "@types/passport-jwt": "^3.0.3",
     "@types/passport-local": "^1.0.33",
+    "casbin": "^5.0.5",
     "class-transformer": "^0.2.3",
     "class-validator": "^0.12.2",
     "dayjs": "^1.8.29",
@@ -46,7 +47,8 @@
     "rxjs": "^6.6.0",
     "stacktrace-js": "^2.0.2",
     "swagger-ui-express": "^4.1.4",
-    "typeorm": "^0.2.22"
+    "typeorm": "^0.2.22",
+    "typeorm-adapter": "^1.2.0"
   },
   "devDependencies": {
     "@nestjs/cli": "^7.0.0",

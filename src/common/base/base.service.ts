@@ -1,4 +1,3 @@
-import { NotFoundException } from '@nestjs/common';
 import { DeleteResult, Repository } from 'typeorm';
 import { PaginationDto, DeleteDto } from './base.dto';
 import { PaginationResult } from '../../interfaces/result.interface';
@@ -11,11 +10,7 @@ export abstract class BaseService<T> {
    * @param id
    */
   public async get(id: number): Promise<T> {
-    const res = await this.repo.findOne(id);
-    if (!res) {
-      throw new NotFoundException('当前资源不存在');
-    }
-    return res;
+    return await this.repo.findOne(id);
   }
   /**
    * 分页查询
