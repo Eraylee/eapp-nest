@@ -6,11 +6,13 @@ import { HttpExceptionFilter } from './filters/http-exception.filter';
 import { LoggingInterceptor } from './interceptors/logging.interceptor';
 import { TransformInterceptor } from './interceptors/transform.interceptor';
 import { ConfigService } from 'nestjs-config';
+import * as helmet from 'helmet';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   const config = app.get(ConfigService);
   const PORT = config.get('app.PORT');
+  app.use(helmet());
   app.useGlobalPipes(
     new ValidationPipe({
       transform: true,

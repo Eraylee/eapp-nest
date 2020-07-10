@@ -36,6 +36,7 @@
     "class-transformer": "^0.2.3",
     "class-validator": "^0.12.2",
     "dayjs": "^1.8.29",
+    "helmet": "^3.23.3",
     "lodash": "^4.17.17",
     "log4js": "^6.3.0",
     "nest-router": "^1.0.9",
