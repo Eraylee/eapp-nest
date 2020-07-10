@@ -39,7 +39,7 @@ export class RoleController {
   @ApiOperation({ summary: '新增' })
   @Post('create')
   async create(@Body() params: CreateRoleDto): Promise<RoleEntity> {
-    return await this.service.create(params);
+    return await this.service.createRole(params);
   }
   /**
    * 修改
@@ -48,7 +48,7 @@ export class RoleController {
   @ApiOperation({ summary: '修改' })
   @Post('update')
   async update(@Body() params: UpdateRoleDto): Promise<RoleEntity> {
-    return await this.service.update(params);
+    return await this.service.updateRole(params);
   }
   /**
    * 删除

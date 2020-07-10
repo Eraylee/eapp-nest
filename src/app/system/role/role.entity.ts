@@ -1,6 +1,7 @@
-import { Column, Entity, ManyToMany } from 'typeorm';
+import { Column, Entity, ManyToMany, JoinTable } from 'typeorm';
 import { BaseEntity } from '@/common/base/base.entity';
 import { UserEntity } from '../user/user.entity';
+import { MenuEntity } from '../menu/menu.entity';
 
 @Entity('role')
 export class RoleEntity extends BaseEntity {
@@ -12,4 +13,14 @@ export class RoleEntity extends BaseEntity {
 
   @ManyToMany(() => UserEntity)
   users: UserEntity[];
+
+  @ManyToMany(() => MenuEntity, {
+    cascade: true,
+    onDelete: 'SET NULL',
+    onUpdate: 'CASCADE',
+    eager: true,
+    nullable: true,
+  })
+  @JoinTable()
+  menus: MenuEntity[];
 }

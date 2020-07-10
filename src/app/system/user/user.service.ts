@@ -41,7 +41,7 @@ export class UserService extends BaseService<UserEntity> {
   public async createUser(params: CreateUserDto): Promise<UserEntity> {
     const count = await this.repo.count({ username: params.username });
     if (count > 0) {
-      throw new BadRequestException('用户已存在');
+      throw new BadRequestException('用户名已存在');
     }
     const user = new UserEntity();
     let roles = [];
@@ -52,6 +52,23 @@ export class UserService extends BaseService<UserEntity> {
       this.config.get('app.DEFAULT_PASSWORD'),
     );
     Object.assign(user, { ...params, password, roles });
+    return this.repo.save(user);
+  }
+  /**
+   * 更新用户
+   * @param params
+   */
+  public async updateUser(params: UpdateUserDto): Promise<UserEntity> {
+    const user = await this.repo.findOne(params.id);
+    if (!user) {
+      throw new BadRequestException('用户不存在');
+    }
+    let roles = [];
+    if (params.roleIds) {
+      roles = await this.roleRepe.findByIds(params.roleIds);
+    }
+    const { nickname, email, phone, avatar } = params;
+    Object.assign(user, { nickname, email, phone, avatar, roles });
     return this.repo.save(user);
   }
   /**

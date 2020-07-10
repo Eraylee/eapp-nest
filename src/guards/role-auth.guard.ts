@@ -1,17 +1,20 @@
 import { Injectable, CanActivate, ExecutionContext } from '@nestjs/common';
-
-import { Observable } from 'rxjs';
-import { Eauth } from '@/utils/eauth.util';
+import { CasbinService } from '../app/casbin/casbin.service';
 
 @Injectable()
-export class AuthGuard implements CanActivate {
-  canActivate(
-    context: ExecutionContext,
-  ): boolean | Promise<boolean> | Observable<boolean> {
+export class RoleGuard implements CanActivate {
+  constructor(private readonly casbin: CasbinService) {}
+  async canActivate(context: ExecutionContext): Promise<boolean> {
     const request = context.switchToHttp().getRequest<Request>();
-    const roleCode = request['user']?.roleCode;
+    const roles: string[] = request['user']?.roles ?? [];
     const url = request.url;
-    const method = request.mode;
-    return Eauth.checkPermission(roleCode, url, method);
+    const method = request.method;
+    for (const role of roles) {
+      const can = await this.casbin.enforcer.enforce(role, url, method);
+      if (can) {
+        return true;
+      }
+    }
+    return false;
   }
 }

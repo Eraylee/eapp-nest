@@ -1,4 +1,4 @@
-import { IsNotEmpty, Length } from 'class-validator';
+import { IsNotEmpty, Length, IsArray } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 import { PaginationDto } from '@/common/base/base.dto';
 import { RoleEntity } from './role.entity';
@@ -30,6 +30,12 @@ export class CreateRoleDto implements Partial<RoleEntity> {
   @IsNotEmpty()
   name: string;
 
+  @ApiProperty({
+    description: '菜单ids',
+  })
+  @IsArray()
+  menuIds: number[];
+
   @IsNotEmpty()
   @Length(1, 20)
   @ApiProperty({
@@ -48,14 +54,17 @@ export class UpdateRoleDto implements Partial<RoleEntity> {
 
   @ApiProperty({
     description: '名称',
-    required: false,
   })
   name: string;
+
+  @ApiProperty({
+    description: '菜单ids',
+  })
+  menuIds: number[];
 
   @IsNotEmpty()
   @ApiProperty({
     description: '编码',
-    required: false,
   })
   code: string;
 }

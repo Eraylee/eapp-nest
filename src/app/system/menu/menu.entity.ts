@@ -22,8 +22,8 @@ export class MenuEntity extends BaseEntity {
   @Column({ type: 'varchar', length: 50, nullable: true })
   icon: string;
 
-  @Column({ type: 'smallint' })
-  type: number;
+  @Column({ type: 'smallint', width: 1, default: MenuTypes.LAYOUT })
+  type: MenuTypes;
 
   @Column({ type: 'varchar', length: 100, nullable: true })
   path: string;

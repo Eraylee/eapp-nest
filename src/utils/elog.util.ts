@@ -5,7 +5,7 @@ import dayjs from 'dayjs';
 import * as StackTrace from 'stacktrace-js';
 import Chalk from 'chalk';
 
-const baseLogPath = Path.resolve(__dirname, '../../logs'); // 日志写入目录
+const baseLogPath = "logs" // 日志写入目录
 
 console.log('process.env.LOG_FILE_PATH', baseLogPath);
 

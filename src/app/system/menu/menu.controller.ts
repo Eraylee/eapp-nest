@@ -6,7 +6,6 @@ import { PaginationResult } from '@/interfaces/result.interface';
 import { DeleteDto } from '@/common/base/base.dto';
 import { DeleteResult } from 'typeorm';
 import { QueryMenuDto, CreateMenuDto, UpdateMenuDto } from './menu.dto';
-import { MenuTypes } from '@/enums';
 
 @Controller()
 @ApiTags('menu')

@@ -26,7 +26,7 @@ export class AuthService {
     return {
       id: user.id,
       username: user.username,
-      roleCode: 'd',
+      roles: user.roles.map(v => v.code),
       nickname: user.nickname,
     };
   }

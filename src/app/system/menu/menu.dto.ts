@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsArray } from 'class-validator';
+import { IsNotEmpty } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 import { PaginationDto } from '@/common/base/base.dto';
 import { MenuEntity } from './menu.entity';
@@ -43,7 +43,6 @@ export class CreateMenuDto implements Partial<MenuEntity> {
 
   @ApiProperty({
     description: '菜单类型',
-    enum: MenuTypes,
   })
   type: MenuTypes;
 
@@ -56,12 +55,6 @@ export class CreateMenuDto implements Partial<MenuEntity> {
     description: '路径',
   })
   path: string;
-
-  @ApiProperty({
-    description: '路径',
-  })
-  @IsArray()
-  roleIds: number[];
 
   @ApiProperty({
     description: '父级菜单id',
@@ -88,7 +81,6 @@ export class UpdateMenuDto implements Partial<MenuEntity> {
 
   @ApiProperty({
     description: '菜单类型',
-    enum: MenuTypes,
   })
   type: MenuTypes;
 
@@ -101,12 +93,6 @@ export class UpdateMenuDto implements Partial<MenuEntity> {
     description: '路径',
   })
   path: string;
-
-  @ApiProperty({
-    description: '路径',
-  })
-  @IsArray()
-  roleIds: number[];
 
   @ApiProperty({
     description: '父级菜单id',
