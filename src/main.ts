@@ -5,10 +5,12 @@ import { ValidationPipe, Logger } from '@nestjs/common';
 import { HttpExceptionFilter } from './filters/http-exception.filter';
 import { LoggingInterceptor } from './interceptors/logging.interceptor';
 import { TransformInterceptor } from './interceptors/transform.interceptor';
+import { ConfigService } from 'nestjs-config';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  const PORT = 8000;
+  const config = app.get(ConfigService);
+  const PORT = config.get('app.PORT');
   app.useGlobalPipes(
     new ValidationPipe({
       transform: true,
