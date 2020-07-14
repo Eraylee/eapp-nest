@@ -30,7 +30,10 @@ export class RoleService extends BaseService<RoleEntity> {
     if (params.menuIds) {
       menus = await this.menuRepo.findByIds(params.menuIds);
       const policy = menus.map(v => [role.code, v.path, v.action]);
-      this.casbin.enforcer.addPolicies(policy);
+      const success = this.casbin.enforcer.addPolicies(policy);
+      if (!success) {
+        throw new BadRequestException('保存策略失败');
+      }
     }
     Object.assign(role, { ...params, menus });
     return this.repo.save(role);
@@ -49,8 +52,14 @@ export class RoleService extends BaseService<RoleEntity> {
         role.code,
       );
       const addPolicies = menus.map(v => [role.code, v.path, v.action]);
-      this.casbin.enforcer.removePolicies(filteredPolicy);
-      this.casbin.enforcer.addPolicies(addPolicies);
+      const success = this.casbin.enforcer.removePolicies(filteredPolicy);
+      if (!success) {
+        throw new BadRequestException('更新策略失败');
+      }
+      const addSuccess = this.casbin.enforcer.addPolicies(addPolicies);
+      if (!addSuccess) {
+        throw new BadRequestException('更新策略失败');
+      }
     }
     Object.assign(role, { ...params, menus });
     return this.repo.save(role);
