@@ -16,5 +16,5 @@ export enum OrderTypes {
 export enum MenuTypes {
   LAYOUT = 1,
   API = 2,
-  ROUTE = 2,
+  ROUTE = 3,
 }

@@ -1,5 +1,5 @@
 import { MenuService } from './menu.service';
-import { Controller, Get, Query, Post, Body } from '@nestjs/common';
+import { Controller, Get, Query, Post, Body, Request } from '@nestjs/common';
 import { ApiOperation, ApiTags, ApiBearerAuth } from '@nestjs/swagger';
 import { MenuEntity } from './menu.entity';
 import { PaginationResult } from '@/interfaces/result.interface';
@@ -34,21 +34,21 @@ export class MenuController {
   }
   /**
    * 新增
-   * @param user
+   * @param params
    */
   @ApiOperation({ summary: '新增' })
   @Post('create')
   async create(@Body() params: CreateMenuDto): Promise<MenuEntity> {
-    return await this.service.create(params);
+    return await this.service.createMenu(params);
   }
   /**
    * 修改
-   * @param user
+   * @param params
    */
   @ApiOperation({ summary: '修改' })
   @Post('update')
   async update(@Body() params: UpdateMenuDto): Promise<MenuEntity> {
-    return await this.service.update(params);
+    return await this.service.updateMenu(params);
   }
   /**
    * 删除
@@ -58,5 +58,21 @@ export class MenuController {
   @Post('delete')
   async delete(@Body() params: DeleteDto): Promise<DeleteResult> {
     return await this.service.delete(params);
+  }
+  /**
+   * 获取全部菜单树
+   */
+  @ApiOperation({ summary: '获取全部菜单树' })
+  @Get('getAllTree')
+  async getMenuTree(): Promise<MenuEntity[]> {
+    return await this.service.getMenuTree();
+  }
+  /**
+   * 获取当前权限菜单树
+   */
+  @ApiOperation({ summary: '获取当前权限菜单树' })
+  @Get('getTree')
+  async getTreeByUser(@Request() req: Request): Promise<MenuEntity[]> {
+    return await this.service.getMenuTreeByUser(req['user']);
   }
 }
