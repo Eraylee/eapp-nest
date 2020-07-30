@@ -9,6 +9,7 @@ import { CreateUserDto, ResetPswDto, UpdateUserDto } from './user.dto';
 import { ConfigService, InjectConfig } from 'nestjs-config';
 import { JwtPayload } from '@/app/auth/jwt-payload.interface';
 import { RoleEntity } from '../role/role.entity';
+import { JwtAuthGuard } from '@/guards/jwt-auth.guard';
 
 @Injectable()
 export class UserService extends BaseService<UserEntity> {

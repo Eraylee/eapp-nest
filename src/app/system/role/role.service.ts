@@ -27,6 +27,7 @@ export class RoleService extends BaseService<RoleEntity> {
     }
     const role = new RoleEntity();
     let menus: MenuEntity[] = [];
+    Object.assign(role, { ...params, menus });
     if (params.menuIds) {
       menus = await this.menuRepo.findByIds(params.menuIds);
       const policy = menus.map(v => [role.code, v.path, v.action]);
@@ -35,7 +36,6 @@ export class RoleService extends BaseService<RoleEntity> {
         throw new BadRequestException('保存策略失败');
       }
     }
-    Object.assign(role, { ...params, menus });
     return this.repo.save(role);
   }
   /**

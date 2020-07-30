@@ -59,23 +59,23 @@ export class MenuService extends BaseService<MenuEntity> {
    * @param user
    */
   public async getMenuTreeByUser(user: JwtPayload): Promise<MenuEntity[]> {
-    const roles = user.roles;
+    const roles = user?.roles ?? [];
     const menus = await this.repo
       .createQueryBuilder('menu')
       .leftJoinAndSelect('menu.roles', 'role')
+      .leftJoinAndSelect('menu.parent', 'parent')
       .andWhere('role.code IN (:...roles)', { roles })
       .getMany();
-    return this.getTree(menus, 0);
-    // const roots =
+    return this.getTree(menus);
   }
   /**
    * 递归生成菜单树
    * @param menus
    * @param pid
    */
-  private getTree(menus: MenuEntity[], pid: number): MenuEntity[] {
+  private getTree(menus: MenuEntity[], pid?: number): MenuEntity[] {
     return menus
-      .filter(v => v.parent.id === pid)
+      .filter(v => (!!pid ? v.parent?.id === pid : !v.parent))
       .map(v => ({ ...v, children: this.getTree(menus, v.id) }));
   }
 }

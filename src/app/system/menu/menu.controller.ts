@@ -1,11 +1,21 @@
 import { MenuService } from './menu.service';
-import { Controller, Get, Query, Post, Body, Request } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Query,
+  Post,
+  Body,
+  Request,
+  UseGuards,
+} from '@nestjs/common';
 import { ApiOperation, ApiTags, ApiBearerAuth } from '@nestjs/swagger';
 import { MenuEntity } from './menu.entity';
 import { PaginationResult } from '@/interfaces/result.interface';
 import { DeleteDto } from '@/common/base/base.dto';
 import { DeleteResult } from 'typeorm';
 import { QueryMenuDto, CreateMenuDto, UpdateMenuDto } from './menu.dto';
+import { JwtAuthGuard } from '@/guards/jwt-auth.guard';
+import { RoleGuard } from '@/guards/role-auth.guard';
 
 @Controller()
 @ApiTags('menu')
@@ -71,6 +81,7 @@ export class MenuController {
    * 获取当前权限菜单树
    */
   @ApiOperation({ summary: '获取当前权限菜单树' })
+  @UseGuards(JwtAuthGuard, RoleGuard)
   @Get('getTree')
   async getTreeByUser(@Request() req: Request): Promise<MenuEntity[]> {
     return await this.service.getMenuTreeByUser(req['user']);

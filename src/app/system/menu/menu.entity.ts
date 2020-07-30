@@ -31,7 +31,10 @@ export class MenuEntity extends BaseEntity {
   @Column({ type: 'smallint', default: Visiable.TRUE })
   visiable: Visiable;
 
-  @ManyToMany(() => RoleEntity)
+  @ManyToMany(
+    () => RoleEntity,
+    role => role.menus,
+  )
   roles: RoleEntity[];
 
   @TreeChildren({

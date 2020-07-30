@@ -14,13 +14,17 @@ export class RoleEntity extends BaseEntity {
   @ManyToMany(() => UserEntity)
   users: UserEntity[];
 
-  @ManyToMany(() => MenuEntity, {
-    cascade: true,
-    onDelete: 'SET NULL',
-    onUpdate: 'CASCADE',
-    eager: true,
-    nullable: true,
-  })
+  @ManyToMany(
+    () => MenuEntity,
+    menu => menu.roles,
+    {
+      cascade: true,
+      onDelete: 'SET NULL',
+      onUpdate: 'CASCADE',
+      eager: true,
+      nullable: true,
+    },
+  )
   @JoinTable()
   menus: MenuEntity[];
 }

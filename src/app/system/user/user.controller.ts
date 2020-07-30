@@ -5,7 +5,7 @@ import {
   Post,
   Query,
   Get,
-  UseGuards,
+  // UseGuards,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { UserEntity } from './user.entity';
@@ -13,9 +13,9 @@ import { ApiOperation, ApiTags, ApiBearerAuth } from '@nestjs/swagger';
 import { QueryUserDto, CreateUserDto, UpdateUserDto } from './user.dto';
 import { DeleteDto } from '@/common/base/base.dto';
 import { DeleteResult } from 'typeorm';
-import { JwtAuthGuard } from '@/guards/jwt-auth.guard';
+// import { JwtAuthGuard } from '@/guards/jwt-auth.guard';
 import { PaginationResult } from '@/interfaces/result.interface';
-import { RoleGuard } from '@/guards/role-auth.guard';
+// import { RoleGuard } from '@/guards/role-auth.guard';
 
 @Controller()
 @ApiTags('user')
@@ -57,7 +57,7 @@ export class UserController {
    */
   @ApiOperation({ summary: '修改' })
   @Post('update')
-  @UseGuards(JwtAuthGuard, RoleGuard)
+  // @UseGuards(JwtAuthGuard, RoleGuard)
   async update(@Body() params: UpdateUserDto): Promise<UserEntity> {
     return await this.service.updateUser(params);
   }
@@ -70,7 +70,6 @@ export class UserController {
   async delete(@Body() params: DeleteDto): Promise<DeleteResult> {
     return await this.service.delete(params);
   }
-
   /**
    * 修改个人信息
    * @param req
@@ -83,5 +82,14 @@ export class UserController {
     @Body() params: UpdateUserDto,
   ): Promise<UserEntity> {
     return await this.service.updateProfile(req['user'], params);
+  }
+  /**
+   * 获取当前用户信息
+   * @param req
+   */
+  @ApiOperation({ summary: '修改个人信息' })
+  @Post('getProfile')
+  async getProfile(@Request() req: Request): Promise<UserEntity> {
+    return this.service.get(req['user']?.id);
   }
 }
