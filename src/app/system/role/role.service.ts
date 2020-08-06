@@ -45,7 +45,7 @@ export class RoleService extends BaseService<RoleEntity> {
   async updateRole(params: UpdateRoleDto): Promise<RoleEntity> {
     const role = await this.repo.findOne(params.id);
     let menus: MenuEntity[] = [];
-    if (params.menuIds) {
+    if (params.menuIds) { 
       menus = await this.menuRepo.findByIds(params.menuIds);
       const filteredPolicy = await this.casbin.enforcer.getFilteredPolicy(
         0,
