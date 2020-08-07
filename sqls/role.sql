@@ -1,0 +1,1 @@
+INSERT INTO "role"("id", "sort", "enabled", "description", "createdAt", "updatedAt", "deletedAt", "name", "code") VALUES (1, 0, 1, NULL, '2020-08-07 16:30:08.560552+08', '2020-08-07 16:30:08.560552+08', NULL, '超级管理员', 'admin');
