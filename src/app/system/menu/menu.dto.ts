@@ -1,4 +1,4 @@
-import { IsNotEmpty } from 'class-validator';
+import { IsNotEmpty, IsDefined } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 import { PaginationDto } from '@/common/base/base.dto';
 import { MenuEntity } from './menu.entity';
@@ -34,6 +34,7 @@ export class CreateMenuDto implements Partial<MenuEntity> {
     description: '名称',
   })
   @IsNotEmpty()
+  @IsDefined()
   name: string;
 
   @ApiProperty({
@@ -67,6 +68,7 @@ export class UpdateMenuDto implements Partial<MenuEntity> {
     description: '名称',
   })
   @IsNotEmpty()
+  @IsDefined()
   id: number;
 
   @ApiProperty({

@@ -29,7 +29,7 @@ export class MenuController {
   @ApiOperation({ summary: '通过id查询' })
   @Get('queryById')
   async queryById(@Query('id') id: number): Promise<MenuEntity> {
-    return await this.service.get(id);
+    return await this.service.getById(id);
   }
   /**
    * 分页查询

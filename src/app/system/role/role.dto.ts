@@ -1,4 +1,4 @@
-import { IsNotEmpty, Length, IsArray } from 'class-validator';
+import { IsNotEmpty, Length, IsArray, IsDefined } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 import { PaginationDto } from '@/common/base/base.dto';
 import { RoleEntity } from './role.entity';
@@ -12,11 +12,13 @@ export class QueryRoleDto extends PaginationDto implements Partial<RoleEntity> {
   })
   name: string;
 
-  @IsNotEmpty()
+
   @ApiProperty({
     description: '编码',
     required: false,
   })
+  @IsNotEmpty()
+  @IsDefined()
   code: string;
 }
 /**
@@ -50,6 +52,7 @@ export class UpdateRoleDto implements Partial<RoleEntity> {
     description: '用户id',
   })
   @IsNotEmpty()
+  @IsDefined()
   id: number;
 
   @ApiProperty({
@@ -62,7 +65,6 @@ export class UpdateRoleDto implements Partial<RoleEntity> {
   })
   menuIds: number[];
 
-  @IsNotEmpty()
   @ApiProperty({
     description: '编码',
   })

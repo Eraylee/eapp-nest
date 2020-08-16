@@ -4,6 +4,7 @@ import {
   IsEmail,
   Length,
   IsArray,
+  IsDefined,
 } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 import { UserEntity } from './user.entity';
@@ -18,7 +19,6 @@ export class QueryUserDto extends PaginationDto implements Partial<UserEntity> {
   })
   username: string;
 
-  @IsNotEmpty()
   @ApiProperty({
     description: '昵称',
     required: false,
@@ -49,11 +49,13 @@ export class CreateUserDto implements Partial<UserEntity> {
   username: string;
 
   @IsNotEmpty()
+  @IsDefined()
   @Length(1, 20)
   @ApiProperty({
     description: '昵称',
   })
   @IsNotEmpty()
+  @IsDefined()
   nickname: string;
 
   @ApiProperty({
@@ -61,6 +63,7 @@ export class CreateUserDto implements Partial<UserEntity> {
   })
   @IsPhoneNumber('CN')
   @IsNotEmpty()
+  @IsDefined()
   phone: string;
 
   @ApiProperty({
@@ -86,6 +89,7 @@ export class UpdateUserDto implements Partial<UserEntity> {
     description: '用户id',
   })
   @IsNotEmpty()
+  @IsDefined()
   id: number;
 
   @ApiProperty({

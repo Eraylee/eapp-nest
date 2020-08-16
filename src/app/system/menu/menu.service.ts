@@ -14,6 +14,14 @@ export class MenuService extends BaseService<MenuEntity> {
   ) {
     super(repo);
   }
+  public async getById(id: number): Promise<MenuEntity> {
+    const menu = await this.treeRepo.findOne(id);
+    const menuWithParent = await this.treeRepo.findAncestorsTree(menu );
+    return menuWithParent;
+  }
+  /**
+   * 获取全部菜单树
+   */
   public async getMenuTree(): Promise<MenuEntity[]> {
     const tree = await this.treeRepo.findTrees();
     return tree;
