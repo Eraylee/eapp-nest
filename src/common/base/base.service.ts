@@ -1,4 +1,4 @@
-import { DeleteResult, Repository } from 'typeorm';
+import { DeleteResult, Repository, Like } from 'typeorm';
 import { PaginationDto, DeleteDto } from './base.dto';
 import { PaginationResult } from '../../interfaces/result.interface';
 import { OrderTypes } from '../../enums';
@@ -16,23 +16,31 @@ export abstract class BaseService<T> {
    * 分页查询
    * @param query
    */
-  public async getPage<D extends PaginationDto>(
-    query: D,
-  ): Promise<PaginationResult<T>> {
-    const take = query.pageSize ?? 10;
-    const page = query.pageNum ?? 1;
+  public async getPage<D extends PaginationDto>({
+    pageSize,
+    pageNum,
+    orderType,
+    orderColumn,
+    ...query
+  }: D): Promise<PaginationResult<T>> {
+    const take = pageSize ?? 10;
+    const page = pageNum ?? 1;
     const skip = take * (page - 1);
-    const orderType = query.orderType ?? OrderTypes.DESC;
-    const orderColumn = query.orderColumn ?? 'createdAt';
-
+    const _orderType = orderType ?? OrderTypes.DESC;
+    const _orderColumn = orderColumn ?? 'createdAt';
     const order: any = {
-      [orderColumn]: orderType,
+      [_orderColumn]: _orderType,
     };
-
+    const where = {};
+    Reflect.ownKeys(query).forEach(queryKey => {
+      const queryValue = query[queryKey];
+      where[queryKey] = Like(`%${queryValue}%`);
+    });
     const [data, total] = await this.repo.findAndCount({
       order,
       skip,
       take,
+      where,
     });
     return {
       data,
