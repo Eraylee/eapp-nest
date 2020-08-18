@@ -1,0 +1,15 @@
+INSERT INTO "casbin_rule"("id", "ptype", "v0", "v1", "v2", "v3", "v4", "v5") VALUES (4, 'p', 'admin', NULL, NULL, NULL, NULL, NULL);
+INSERT INTO "casbin_rule"("id", "ptype", "v0", "v1", "v2", "v3", "v4", "v5") VALUES (5, 'p', 'admin', '/system/menu', NULL, NULL, NULL, NULL);
+INSERT INTO "casbin_rule"("id", "ptype", "v0", "v1", "v2", "v3", "v4", "v5") VALUES (6, 'p', 'admin', '/system/menu/getTree', 'GET', NULL, NULL, NULL);
+INSERT INTO "casbin_rule"("id", "ptype", "v0", "v1", "v2", "v3", "v4", "v5") VALUES (7, 'p', 'admin', '/system/user', NULL, NULL, NULL, NULL);
+INSERT INTO "menu"("id", "sort", "enabled", "description", "createdAt", "updatedAt", "deletedAt", "name", "action", "icon", "type", "path", "visiable", "mpath", "parentId") VALUES (1, 0, 1, NULL, '2020-08-07 16:44:17.026396+08', '2020-08-07 16:44:17.026396+08', NULL, '系统', NULL, 'SettingOutlined', 1, NULL, 1, '1.', NULL);
+INSERT INTO "menu"("id", "sort", "enabled", "description", "createdAt", "updatedAt", "deletedAt", "name", "action", "icon", "type", "path", "visiable", "mpath", "parentId") VALUES (5, 0, 1, NULL, '2020-08-07 16:47:52.900115+08', '2020-08-07 16:47:52.900115+08', NULL, '菜单', NULL, 'BarsOutlined', 3, '/system/menu', 1, '1.5.', 1);
+INSERT INTO "menu"("id", "sort", "enabled", "description", "createdAt", "updatedAt", "deletedAt", "name", "action", "icon", "type", "path", "visiable", "mpath", "parentId") VALUES (6, 0, 1, NULL, '2020-08-07 16:50:16.424078+08', '2020-08-07 16:50:16.424078+08', NULL, '获取个人菜单树', 'GET', NULL, 2, '/system/menu/getTree', 1, '1.5.6.', 5);
+INSERT INTO "menu"("id", "sort", "enabled", "description", "createdAt", "updatedAt", "deletedAt", "name", "action", "icon", "type", "path", "visiable", "mpath", "parentId") VALUES (7, 0, 1, NULL, '2020-08-18 11:02:26.054969+08', '2020-08-18 11:02:26.054969+08', NULL, '用户', NULL, 'UserOutlined', 3, '/system/user', 1, '1.7.', 1);
+INSERT INTO "role"("id", "sort", "enabled", "description", "createdAt", "updatedAt", "deletedAt", "name", "code") VALUES (1, 0, 1, NULL, '2020-08-07 16:30:08.560552+08', '2020-08-07 16:30:08.560552+08', NULL, '超级管理员', 'admin');
+INSERT INTO "role_menus_menu"("roleId", "menuId") VALUES (1, 1);
+INSERT INTO "role_menus_menu"("roleId", "menuId") VALUES (1, 5);
+INSERT INTO "role_menus_menu"("roleId", "menuId") VALUES (1, 6);
+INSERT INTO "role_menus_menu"("roleId", "menuId") VALUES (1, 7);
+INSERT INTO "user"("id", "sort", "enabled", "description", "createdAt", "updatedAt", "deletedAt", "username", "nickname", "email", "password", "phone", "avatar") VALUES (1, 0, 1, NULL, '2020-08-07 16:29:42.919738+08', '2020-08-07 16:29:42.919738+08', NULL, 'admin', '管理员', 'string@qq.com', 'b946ccc987465afcda7e45b1715219711a13518d1f1663b8c53b848cb0143441', '15555555555', NULL);
+INSERT INTO "user_roles_role"("userId", "roleId") VALUES (1, 1);
