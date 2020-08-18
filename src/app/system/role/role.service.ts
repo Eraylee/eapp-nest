@@ -31,12 +31,12 @@ export class RoleService extends BaseService<RoleEntity> {
     if (params.menuIds) {
       menus = await this.menuRepo.findByIds(params.menuIds);
       const policy = menus.map(v => [role.code, v.path, v.action]);
-      const success = this.casbin.enforcer.addPolicies(policy);
+      const success = await this.casbin.enforcer.addPolicies(policy);
       if (!success) {
         throw new BadRequestException('保存策略失败');
       }
     }
-    return this.repo.save(role);
+    return await this.repo.save(role);
   }
   /**
    * 修改
@@ -45,23 +45,23 @@ export class RoleService extends BaseService<RoleEntity> {
   async updateRole(params: UpdateRoleDto): Promise<RoleEntity> {
     const role = await this.repo.findOne(params.id);
     let menus: MenuEntity[] = [];
-    if (params.menuIds) { 
+    if (params.menuIds) {
       menus = await this.menuRepo.findByIds(params.menuIds);
       const filteredPolicy = await this.casbin.enforcer.getFilteredPolicy(
         0,
         role.code,
       );
       const addPolicies = menus.map(v => [role.code, v.path, v.action]);
-      const success = this.casbin.enforcer.removePolicies(filteredPolicy);
+      const success = await this.casbin.enforcer.removePolicies(filteredPolicy);
       if (!success) {
         throw new BadRequestException('更新策略失败');
       }
-      const addSuccess = this.casbin.enforcer.addPolicies(addPolicies);
+      const addSuccess = await this.casbin.enforcer.addPolicies(addPolicies);
       if (!addSuccess) {
         throw new BadRequestException('更新策略失败');
       }
     }
     Object.assign(role, { ...params, menus });
-    return this.repo.save(role);
+    return await this.repo.save(role);
   }
 }
