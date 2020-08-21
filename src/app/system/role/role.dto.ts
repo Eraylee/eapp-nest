@@ -17,8 +17,6 @@ export class QueryRoleDto extends PaginationDto implements Partial<RoleEntity> {
     description: '编码',
     required: false,
   })
-  @IsNotEmpty()
-  @IsDefined()
   code: string;
 }
 /**
