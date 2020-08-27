@@ -24,12 +24,12 @@ const ENV = process.env.NODE_ENV;
       useFactory: (config: ConfigService) => config.get('database'),
       inject: [ConfigService],
     }),
-    MongooseModule.forRoot('mongodb://localhost/27017'),
+    MongooseModule.forRoot('mongodb://localhost:27017/log'),
     RouterModule.forRoutes(routes),
     SystemModule,
     LogModule,
     AuthModule,
     CasbinModule,
-  ],
+  ],                                      
 })
 export class AppModule {}

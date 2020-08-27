@@ -7,7 +7,7 @@ export class LoginInfo extends Document {
   username: string;
 
   @Prop()
-  ip: number;
+  ip: string;
 
   @Prop()
   location: string;
@@ -22,10 +22,10 @@ export class LoginInfo extends Document {
   status: number;
 
   @Prop()
-  res: string;
+  message: string;
 
   @Prop()
   time: string;
 }
 
-export const CatSchema = SchemaFactory.createForClass(LoginInfo);
+export const LoginInfoSchema = SchemaFactory.createForClass(LoginInfo);

@@ -5,7 +5,7 @@ import { LoginInfo } from './login-info.schema';
 
 @Injectable()
 export class LoginInfoService {
-  constructor(@InjectModel('LoginInfo') private model: Model<LoginInfo>) {}
+  constructor(@InjectModel(LoginInfo.name) private model: Model<LoginInfo>) {}
 
   async create(params: Partial<LoginInfo>): Promise<LoginInfo> {
     const createdCat = new this.model(params);

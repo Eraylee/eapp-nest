@@ -24,7 +24,7 @@ export class LoggingInterceptor implements NestInterceptor {
         const url = req.url;
         const method = req.method;
         const response = JSON.stringify(res);
-        const ip = req.ip;
+        const ip = req.headers['x-real-ip'] || req['connection'].remoteAddress;
         const logFormat = `
         ------------------------------------------------------------------
               Request url: ${url}
@@ -37,15 +37,16 @@ export class LoggingInterceptor implements NestInterceptor {
 
         Elog.log(logFormat);
 
-        if (url === 'auth/login') {
+        if (url === '/auth/login') {
           const user: JwtPayload = req['user'];
           const agent = req.headers['user-agent'];
+          const message = res['message'];
           this.service.create({
             username: user.username,
             ip,
             agent,
             status,
-            res,
+            message,
           });
         }
       }),
