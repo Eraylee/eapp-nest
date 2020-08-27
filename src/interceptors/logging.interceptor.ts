@@ -7,9 +7,12 @@ import {
   NestInterceptor,
 } from '@nestjs/common';
 import { Elog } from '@/utils/elog.util';
+import { LoginInfoService } from '@/app/log/login-info/login-info.service';
+import { JwtPayload } from '@/app/auth/jwt-payload.interface';
 
 @Injectable()
 export class LoggingInterceptor implements NestInterceptor {
+  constructor(private service: LoginInfoService) {}
   public intercept(
     context: ExecutionContext,
     next: CallHandler,
@@ -17,17 +20,34 @@ export class LoggingInterceptor implements NestInterceptor {
     const req = context.switchToHttp().getRequest();
     return next.handle().pipe(
       tap(res => {
+        const status = 200;
+        const url = req.url;
+        const method = req.method;
+        const response = JSON.stringify(res);
+        const ip = req.ip;
         const logFormat = `
         ------------------------------------------------------------------
-              Request url: ${req.url}
-              Method: ${req.method}
-              IP: ${req.ip}
-              Status：${200}
-              res : ${JSON.stringify(res)}
+              Request url: ${url}
+              Method: ${method}
+              IP: ${ip}
+              Status：${status}
+              res : ${response}
         -------------------------------------------------------------------
       `;
-        Elog.access(logFormat);
+
         Elog.log(logFormat);
+
+        if (url === 'auth/login') {
+          const user: JwtPayload = req['user'];
+          const agent = req.headers['user-agent'];
+          this.service.create({
+            username: user.username,
+            ip,
+            agent,
+            status,
+            res,
+          });
+        }
       }),
     );
   }

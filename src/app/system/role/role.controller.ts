@@ -33,6 +33,14 @@ export class RoleController {
     return await this.service.getPage(params);
   }
   /**
+   * 查询所有
+   */
+  @ApiOperation({ summary: '查询所有' })
+  @Get('queryAll')
+  async queryAll(): Promise<RoleEntity[]> {
+    return await this.service.getAll();
+  }
+  /**
    * 新增
    * @param user
    */

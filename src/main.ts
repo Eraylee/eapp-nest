@@ -7,6 +7,7 @@ import { LoggingInterceptor } from './interceptors/logging.interceptor';
 import { TransformInterceptor } from './interceptors/transform.interceptor';
 import { ConfigService } from 'nestjs-config';
 import * as helmet from 'helmet';
+import { LoginInfoService } from './app/log/login-info/login-info.service';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -21,7 +22,8 @@ async function bootstrap() {
     }),
   );
   initSwagger(app);
-  app.useGlobalInterceptors(new LoggingInterceptor());
+  const loginInfoService = app.get<LoginInfoService>(LoginInfoService);
+  app.useGlobalInterceptors(new LoggingInterceptor(loginInfoService));
   app.useGlobalInterceptors(new TransformInterceptor());
   app.useGlobalFilters(new HttpExceptionFilter());
   await app.listen(PORT);

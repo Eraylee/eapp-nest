@@ -17,6 +17,13 @@ export class RoleService extends BaseService<RoleEntity> {
     super(repo);
   }
   /**
+   * 获取全部
+   */
+  async getAll(): Promise<RoleEntity[]> {
+    const roles = await this.repo.find();
+    return roles;
+  }
+  /**
    * 新增角色
    * @param params
    */
