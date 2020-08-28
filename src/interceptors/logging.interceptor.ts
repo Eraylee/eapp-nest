@@ -41,13 +41,15 @@ export class LoggingInterceptor implements NestInterceptor {
           const user: JwtPayload = req['user'];
           const agent = req.headers['user-agent'];
           const message = res['message'];
-          this.service.create({
-            username: user.username,
-            ip,
+          this.service.create(
+            {
+              username: user.username,
+              ip,
+              status,
+              message,
+            },
             agent,
-            status,
-            message,
-          });
+          );
         }
       }),
     );

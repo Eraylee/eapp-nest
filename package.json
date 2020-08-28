@@ -34,6 +34,7 @@
     "@types/mongoose": "^5.7.36",
     "@types/passport-jwt": "^3.0.3",
     "@types/passport-local": "^1.0.33",
+    "@types/ua-parser-js": "^0.7.33",
     "casbin": "^5.0.5",
     "class-transformer": "^0.2.3",
     "class-validator": "^0.12.2",
@@ -53,7 +54,8 @@
     "stacktrace-js": "^2.0.2",
     "swagger-ui-express": "^4.1.4",
     "typeorm": "^0.2.22",
-    "typeorm-adapter": "^1.2.0"
+    "typeorm-adapter": "^1.2.0",
+    "ua-parser-js": "^0.7.21"
   },
   "devDependencies": {
     "@nestjs/cli": "^7.0.0",

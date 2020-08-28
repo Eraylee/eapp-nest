@@ -10,13 +10,10 @@ export class LoginInfo extends Document {
   ip: string;
 
   @Prop()
-  location: string;
+  browser: IUAParser.IBrowser;
 
   @Prop()
-  agent: string;
-
-  @Prop()
-  os: string;
+  os: IUAParser.IOS;
 
   @Prop()
   status: number;
