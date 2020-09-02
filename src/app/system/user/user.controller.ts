@@ -10,7 +10,13 @@ import {
 import { UserService } from './user.service';
 import { UserEntity } from './user.entity';
 import { ApiOperation, ApiTags, ApiBearerAuth } from '@nestjs/swagger';
-import { QueryUserDto, CreateUserDto, UpdateUserDto } from './user.dto';
+import {
+  QueryUserDto,
+  CreateUserDto,
+  UpdateUserDto,
+  ResetPswDto,
+  UpdatePswDto,
+} from './user.dto';
 import { DeleteDto } from '@/common/base/base.dto';
 import { DeleteResult } from 'typeorm';
 // import { JwtAuthGuard } from '@/guards/jwt-auth.guard';
@@ -81,15 +87,36 @@ export class UserController {
     @Request() req: Request,
     @Body() params: UpdateUserDto,
   ): Promise<UserEntity> {
-    return await this.service.updateProfile(req['user'], params);
+    return await this.service.updateProfile(req['user']?.id, params);
   }
   /**
    * 获取当前用户信息
    * @param req
    */
-  @ApiOperation({ summary: '修改个人信息' })
+  @ApiOperation({ summary: '获取当前用户信息' })
   @Post('getProfile')
   async getProfile(@Request() req: Request): Promise<UserEntity> {
     return this.service.get(req['user']?.id);
+  }
+  /**
+   * 重置密码
+   * @param dto
+   */
+  @ApiOperation({ summary: '重置密码' })
+  @Post('resetPassword')
+  async resetPassword(@Body() dto: ResetPswDto): Promise<UserEntity> {
+    return this.service.resetPassWord(dto);
+  }
+  /**
+   * 修改密码
+   * @param dto
+   */
+  @ApiOperation({ summary: '修改密码' })
+  @Post('updatePassword')
+  async updatePassword(
+    @Request() req: Request,
+    @Body() dto: UpdatePswDto,
+  ): Promise<UserEntity> {
+    return this.service.updatePassword(req['user']?.id, dto);
   }
 }

@@ -88,8 +88,6 @@ export class UpdateUserDto implements Partial<UserEntity> {
   @ApiProperty({
     description: '用户id',
   })
-  @IsNotEmpty()
-  @IsDefined()
   id: number;
 
   @ApiProperty({
@@ -121,22 +119,27 @@ export class UpdateUserDto implements Partial<UserEntity> {
   roleIds: number[];
 }
 
-export class ResetPswDto {
-  @ApiProperty({
-    description: '用户id',
-  })
-  @IsNotEmpty()
-  id: number;
-
+export class UpdatePswDto {
   @ApiProperty({
     description: '原始密码',
   })
   @IsNotEmpty()
+  @IsDefined()
   oldPassword: string;
 
   @ApiProperty({
     description: '新密码',
   })
   @IsNotEmpty()
+  @IsDefined()
   newPassword: string;
+}
+
+export class ResetPswDto {
+  @ApiProperty({
+    description: '用户id',
+  })
+  @IsNotEmpty()
+  @IsDefined()
+  id: number;
 }
