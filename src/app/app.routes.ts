@@ -4,8 +4,7 @@ import { UserModule } from './system/user/user.module';
 import { AuthModule } from './auth/auth.module';
 import { RoleModule } from './system/role/role.module';
 import { MenuModule } from './system/menu/menu.module';
-import { LogModule } from './log/log.model';
-import { LoginInfoModule } from './log/login-info/login-info.module';
+import { DataDictionaryModule } from './system/data-dictionary/data-dictionary.module';
 
 export const routes: Routes = [
   {
@@ -15,12 +14,8 @@ export const routes: Routes = [
       { path: '/user', module: UserModule },
       { path: '/role', module: RoleModule },
       { path: '/menu', module: MenuModule },
+      { path: '/dataDictionary', module: DataDictionaryModule },
     ],
-  },
-  {
-    path: '/log',
-    module: LogModule,
-    children: [{ path: '/loginInfo', module: LoginInfoModule }],
   },
   {
     path: '/auth',
