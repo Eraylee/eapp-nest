@@ -8,7 +8,7 @@ import {
   UpdateDataDictionaryDto,
 } from './data-dictionary.dto';
 import { PaginationResult } from '@/interfaces/result.interface';
-import { DeleteDto } from '@/common/base/base.dto';
+import { DeletBatcheDto } from '@/common/base/base.dto';
 import { DeleteResult } from 'typeorm';
 
 @Controller()
@@ -22,8 +22,8 @@ export class DataDictionaryController {
    */
   @ApiOperation({ summary: '通过id查询' })
   @Get('queryById')
-  async queryById(@Query('id') id: number): Promise<DataDictionaryEntity> {
-    return await this.service.getById(id);
+  queryById(@Query('id') id: number): Promise<DataDictionaryEntity> {
+    return this.service.getById(id);
   }
   /**
    * 分页查询
@@ -31,10 +31,10 @@ export class DataDictionaryController {
    */
   @ApiOperation({ summary: '分页查询' })
   @Get('queryPage')
-  async queryPage(
+  queryPage(
     @Query() params: QueryDataDictionaryDto,
   ): Promise<PaginationResult<DataDictionaryEntity>> {
-    return await this.service.getPage(params);
+    return this.service.getPage(params);
   }
   /**
    * 新增
@@ -42,10 +42,10 @@ export class DataDictionaryController {
    */
   @ApiOperation({ summary: '新增' })
   @Post('create')
-  async create(
+  create(
     @Body() params: CreateDataDictionaryDto,
   ): Promise<DataDictionaryEntity> {
-    return await this.service.createDataDictionary(params);
+    return this.service.createDataDictionary(params);
   }
   /**
    * 修改
@@ -53,26 +53,26 @@ export class DataDictionaryController {
    */
   @ApiOperation({ summary: '修改' })
   @Post('update')
-  async update(
+  update(
     @Body() params: UpdateDataDictionaryDto,
   ): Promise<DataDictionaryEntity> {
-    return await this.service.updateDataDictionary(params);
+    return this.service.updateDataDictionary(params);
   }
   /**
-   * 删除
+   * 批量删除
    * @param params
    */
-  @ApiOperation({ summary: '删除' })
-  @Post('delete')
-  async delete(@Body() params: DeleteDto): Promise<DeleteResult> {
-    return await this.service.delete(params);
+  @ApiOperation({ summary: '批量删除' })
+  @Post('deleteBatch')
+  deleteBatch(@Body() params: DeletBatcheDto): Promise<DeleteResult> {
+    return this.service.deleteBatch(params);
   }
   /**
    * 获取全部菜单树
    */
   @ApiOperation({ summary: '获取全部菜单树' })
   @Get('getAllTree')
-  async getAllTree(): Promise<DataDictionaryEntity[]> {
-    return await this.service.getDataDictionaryTree();
+  getAllTree(): Promise<DataDictionaryEntity[]> {
+    return this.service.getDataDictionaryTree();
   }
 }

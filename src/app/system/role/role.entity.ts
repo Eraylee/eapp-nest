@@ -19,10 +19,9 @@ export class RoleEntity extends BaseEntity {
     menu => menu.roles,
     {
       cascade: true,
-      onDelete: 'SET NULL',
+      onDelete: 'RESTRICT',
       onUpdate: 'CASCADE',
       eager: true,
-      nullable: true,
     },
   )
   @JoinTable()

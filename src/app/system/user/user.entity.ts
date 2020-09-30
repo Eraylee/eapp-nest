@@ -4,30 +4,38 @@ import { RoleEntity } from '../role/role.entity';
 
 @Entity('user')
 export class UserEntity extends BaseEntity {
-  @Column({ type: 'varchar', length: 30, unique: true })
+  @Column({ type: 'varchar', length: 30, unique: true, comment: '用户名' })
   username: string;
 
-  @Column({ type: 'varchar', length: 30 })
+  @Column({ type: 'varchar', length: 30, comment: '昵称' })
   nickname: string;
 
-  @Column({ type: 'varchar', length: 50, unique: true, nullable: true })
+  @Column({ type: 'varchar', length: 30, unique: true, comment: '用户编号' })
+  userNo: string;
+
+  @Column({
+    type: 'varchar',
+    length: 50,
+    unique: true,
+    nullable: true,
+    comment: '邮箱',
+  })
   email: string;
 
-  @Column({ type: 'char', length: 64, select: false })
+  @Column({ type: 'char', length: 64, select: false, comment: '密码' })
   password: string;
 
-  @Column({ type: 'varchar', length: 30 })
+  @Column({ type: 'varchar', length: 30, comment: '手机号' })
   phone: string;
 
-  @Column({ type: 'varchar', length: 50, nullable: true })
+  @Column({ type: 'varchar', length: 50, nullable: true, comment: '头像' })
   avatar: string;
 
   @ManyToMany(() => RoleEntity, {
     cascade: true,
-    onDelete: 'SET NULL',
+    onDelete: 'RESTRICT',
     onUpdate: 'CASCADE',
     eager: true,
-    nullable: true,
   })
   @JoinTable()
   roles: RoleEntity[];

@@ -14,9 +14,13 @@ export class MenuService extends BaseService<MenuEntity> {
   ) {
     super(repo);
   }
+  /**
+   * 根据id查询
+   * @param id
+   */
   public async getById(id: number): Promise<MenuEntity> {
     const menu = await this.treeRepo.findOne(id);
-    const menuWithParent = await this.treeRepo.findAncestorsTree(menu );
+    const menuWithParent = await this.treeRepo.findAncestorsTree(menu);
     return menuWithParent;
   }
   /**
@@ -41,7 +45,7 @@ export class MenuService extends BaseService<MenuEntity> {
       }
       menu.parent = parent;
     }
-    return this.repo.save(menu);
+    return await this.repo.save(menu);
   }
   /**
    * 修改
@@ -60,21 +64,24 @@ export class MenuService extends BaseService<MenuEntity> {
       }
       menu.parent = parent;
     }
-    return this.repo.save(menu);
+    return await this.repo.save(menu);
   }
   /**
    * 获取当前用户菜单
    * @param user
    */
   public async getMenuTreeByUser(user: JwtPayload): Promise<MenuEntity[]> {
-    const roles = user?.roles ?? [];
+    const roles = user?.roles || [];
+    if (!roles.length) {
+      throw new BadRequestException('当前用户未绑定角色');
+    }
     const menus = await this.repo
       .createQueryBuilder('menu')
       .leftJoinAndSelect('menu.roles', 'role')
       .leftJoinAndSelect('menu.parent', 'parent')
       .andWhere('role.code IN (:...roles)', { roles })
       .getMany();
-    return this.getTree(menus);
+    return await this.getTree(menus);
   }
   /**
    * 递归生成菜单树

@@ -2,16 +2,13 @@ import {
   IsNotEmpty,
   IsPhoneNumber,
   IsEmail,
-  Length,
   IsArray,
   IsDefined,
 } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 import { UserEntity } from './user.entity';
-import { PaginationDto } from '@/common/base/base.dto';
-/**
- * 分页查询
- */
+import { CreateDto, PaginationDto, UpdateDto } from '@/common/base/base.dto';
+// 分页查询
 export class QueryUserDto extends PaginationDto implements Partial<UserEntity> {
   @ApiProperty({
     description: '用户名',
@@ -32,31 +29,40 @@ export class QueryUserDto extends PaginationDto implements Partial<UserEntity> {
   phone: string;
 
   @ApiProperty({
+    description: '用户编号',
+    required: false,
+  })
+  userNo: string;
+
+  @ApiProperty({
     description: '邮箱',
     required: false,
   })
   email: string;
 }
-/**
- * 新增
- */
-export class CreateUserDto implements Partial<UserEntity> {
+//新增
+export class CreateUserDto extends CreateDto implements Partial<UserEntity> {
   @ApiProperty({
     description: '用户名',
   })
-  @Length(1, 20)
-  @IsNotEmpty()
-  username: string;
-
   @IsNotEmpty()
   @IsDefined()
-  @Length(1, 20)
+  username: string;
+
   @ApiProperty({
     description: '昵称',
   })
   @IsNotEmpty()
   @IsDefined()
   nickname: string;
+
+  @ApiProperty({
+    description: '用户编号',
+    required: false,
+  })
+  @IsNotEmpty()
+  @IsDefined()
+  userNo: string;
 
   @ApiProperty({
     description: '手机号码',
@@ -83,23 +89,37 @@ export class CreateUserDto implements Partial<UserEntity> {
   })
   avatar: string;
 }
-
+// 修改
 export class UpdateUserDto implements Partial<UserEntity> {
   @ApiProperty({
     description: '用户id',
   })
+  @IsNotEmpty()
+  @IsDefined()
   id: number;
 
   @ApiProperty({
     description: '昵称',
   })
+  @IsNotEmpty()
+  @IsDefined()
   nickname: string;
 
   @ApiProperty({
     description: '手机号码',
   })
   @IsPhoneNumber('CN')
+  @IsNotEmpty()
+  @IsDefined()
   phone: string;
+
+  @ApiProperty({
+    description: '用户编号',
+    required: false,
+  })
+  @IsNotEmpty()
+  @IsDefined()
+  userNo: string;
 
   @ApiProperty({
     description: '邮箱',
@@ -118,8 +138,8 @@ export class UpdateUserDto implements Partial<UserEntity> {
   @IsArray()
   roleIds: number[];
 }
-
-export class UpdatePswDto {
+// 修改密码
+export class UpdatePswDto extends UpdateDto implements Partial<UserEntity> {
   @ApiProperty({
     description: '原始密码',
   })
@@ -134,7 +154,7 @@ export class UpdatePswDto {
   @IsDefined()
   newPassword: string;
 }
-
+// 重置密码
 export class ResetPswDto {
   @ApiProperty({
     description: '用户id',

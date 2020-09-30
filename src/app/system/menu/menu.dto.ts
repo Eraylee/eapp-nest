@@ -1,11 +1,9 @@
 import { IsNotEmpty, IsDefined } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
-import { PaginationDto } from '@/common/base/base.dto';
-import { MenuEntity } from './menu.entity';
-import { MenuTypes } from '@/enums';
-/**
- * 分页查询
- */
+import { CreateDto, PaginationDto, UpdateDto } from '@/common/base/base.dto';
+import { MenuEntity, MenuTypes } from './menu.entity';
+
+// 分页查询
 export class QueryMenuDto extends PaginationDto implements Partial<MenuEntity> {
   @ApiProperty({
     description: '名称',
@@ -26,10 +24,8 @@ export class QueryMenuDto extends PaginationDto implements Partial<MenuEntity> {
   })
   type: MenuTypes;
 }
-/**
- * 新增
- */
-export class CreateMenuDto implements Partial<MenuEntity> {
+// 新增
+export class CreateMenuDto extends CreateDto implements Partial<MenuEntity> {
   @ApiProperty({
     description: '名称',
   })
@@ -45,6 +41,8 @@ export class CreateMenuDto implements Partial<MenuEntity> {
   @ApiProperty({
     description: '菜单类型',
   })
+  @IsNotEmpty()
+  @IsDefined()
   type: MenuTypes;
 
   @ApiProperty({
@@ -62,18 +60,13 @@ export class CreateMenuDto implements Partial<MenuEntity> {
   })
   parentId: number;
 }
-
-export class UpdateMenuDto implements Partial<MenuEntity> {
+// 修改
+export class UpdateMenuDto extends UpdateDto implements Partial<MenuEntity> {
   @ApiProperty({
     description: '名称',
   })
   @IsNotEmpty()
   @IsDefined()
-  id: number;
-
-  @ApiProperty({
-    description: '名称',
-  })
   name: string;
 
   @ApiProperty({
@@ -84,6 +77,8 @@ export class UpdateMenuDto implements Partial<MenuEntity> {
   @ApiProperty({
     description: '菜单类型',
   })
+  @IsNotEmpty()
+  @IsDefined()
   type: MenuTypes;
 
   @ApiProperty({

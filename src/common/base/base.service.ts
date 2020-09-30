@@ -1,5 +1,5 @@
 import { DeleteResult, Repository, Like } from 'typeorm';
-import { PaginationDto, DeleteDto } from './base.dto';
+import { PaginationDto, DeletBatcheDto } from './base.dto';
 import { PaginationResult } from '../../interfaces/result.interface';
 import { OrderTypes } from '../../enums';
 
@@ -26,7 +26,7 @@ export abstract class BaseService<T> {
     const take = pageSize ?? 10;
     const page = pageNum ?? 1;
     const skip = take * (page - 1);
-    const _orderType = orderType ?? OrderTypes.DESC;
+    const _orderType: OrderTypes = orderType ?? OrderTypes.DESC;
     const _orderColumn = orderColumn ?? 'createdAt';
     const order: any = {
       [_orderColumn]: _orderType,
@@ -34,7 +34,11 @@ export abstract class BaseService<T> {
     const where = {};
     Reflect.ownKeys(query).forEach(queryKey => {
       const queryValue = query[queryKey];
-      where[queryKey] = Like(`%${queryValue}%`);
+      if (queryKey === 'parentId') {
+        Object.assign(where, { parent: { id: queryValue } });
+      } else {
+        where[queryKey] = Like(`%${queryValue}%`);
+      }
     });
     const [data, total] = await this.repo.findAndCount({
       order,
@@ -68,10 +72,10 @@ export abstract class BaseService<T> {
     return await this.repo.save(res);
   }
   /**
-   * 删除
+   * 批量删除
    * @param ids
    */
-  public async delete(params: DeleteDto): Promise<DeleteResult> {
-    return this.repo.delete(params.ids);
+  public async deleteBatch(params: DeletBatcheDto): Promise<DeleteResult> {
+    return this.repo.softDelete(params.ids);
   }
 }

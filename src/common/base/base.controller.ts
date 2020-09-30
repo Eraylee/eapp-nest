@@ -1,5 +1,5 @@
 import { Get, Post, Body, Param } from '@nestjs/common';
-import { DeleteDto } from './base.dto';
+import { DeletBatcheDto } from './base.dto';
 import { BaseService } from './base.service';
 import { ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { DeleteResult } from 'typeorm';
@@ -7,17 +7,6 @@ import { DeleteResult } from 'typeorm';
 
 export class BaseController<T> {
   constructor(public baseService: BaseService<T>) {}
-  // /**
-  //  * 分页查询
-  //  * @param query
-  //  */
-  // @ApiOperation({ summary: '分页查询' })
-  // @Get('queryPage')
-  // public async getMany(
-  //   @Query() query: PaginationDto,
-  // ): Promise<PaginationResult<T>> {
-  //   return await this.baseService.getPage(query);
-  // }
   /**
    * 通过id查询
    * @param id
@@ -37,9 +26,11 @@ export class BaseController<T> {
    * @param ids
    */
   @ApiOperation({ summary: '删除' })
-  @Post('delete')
+  @Post('deleteBatch')
   @ApiResponse({ status: 403, description: 'Forbidden.' })
-  public async delete(@Body() body: DeleteDto): Promise<DeleteResult> {
-    return await this.baseService.delete(body);
+  public async deleteBatch(
+    @Body() body: DeletBatcheDto,
+  ): Promise<DeleteResult> {
+    return await this.baseService.deleteBatch(body);
   }
 }

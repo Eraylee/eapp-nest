@@ -17,7 +17,7 @@ import {
   ResetPswDto,
   UpdatePswDto,
 } from './user.dto';
-import { DeleteDto } from '@/common/base/base.dto';
+import { DeletBatcheDto } from '@/common/base/base.dto';
 import { DeleteResult } from 'typeorm';
 // import { JwtAuthGuard } from '@/guards/jwt-auth.guard';
 import { PaginationResult } from '@/interfaces/result.interface';
@@ -34,8 +34,8 @@ export class UserController {
    */
   @ApiOperation({ summary: '通过id查询' })
   @Get('queryById')
-  async queryById(@Query('id') id: number): Promise<UserEntity> {
-    return await this.service.get(id);
+  queryById(@Query('id') id: number): Promise<UserEntity> {
+    return this.service.get(id);
   }
   /**
    * 分页查询
@@ -43,10 +43,10 @@ export class UserController {
    */
   @ApiOperation({ summary: '分页查询' })
   @Get('queryPage')
-  async queryPage(
+  queryPage(
     @Query() params: QueryUserDto,
   ): Promise<PaginationResult<UserEntity>> {
-    return await this.service.getPage(params);
+    return this.service.getPage(params);
   }
   /**
    * 新增
@@ -54,8 +54,8 @@ export class UserController {
    */
   @ApiOperation({ summary: '新增' })
   @Post('create')
-  async create(@Body() params: CreateUserDto): Promise<UserEntity> {
-    return await this.service.createUser(params);
+  create(@Body() params: CreateUserDto): Promise<UserEntity> {
+    return this.service.createUser(params);
   }
   /**
    * 修改
@@ -64,17 +64,17 @@ export class UserController {
   @ApiOperation({ summary: '修改' })
   @Post('update')
   // @UseGuards(JwtAuthGuard, RoleGuard)
-  async update(@Body() params: UpdateUserDto): Promise<UserEntity> {
-    return await this.service.updateUser(params);
+  update(@Body() params: UpdateUserDto): Promise<UserEntity> {
+    return this.service.updateUser(params);
   }
   /**
    * 删除
    * @param params
    */
   @ApiOperation({ summary: '删除' })
-  @Post('delete')
-  async delete(@Body() params: DeleteDto): Promise<DeleteResult> {
-    return await this.service.delete(params);
+  @Post('deleteBatch')
+  deleteBatch(@Body() params: DeletBatcheDto): Promise<DeleteResult> {
+    return this.service.deleteBatch(params);
   }
   /**
    * 修改个人信息
@@ -83,11 +83,11 @@ export class UserController {
    */
   @ApiOperation({ summary: '修改个人信息' })
   @Post('updateProfile')
-  async updateProfile(
+  updateProfile(
     @Request() req: Request,
     @Body() params: UpdateUserDto,
   ): Promise<UserEntity> {
-    return await this.service.updateProfile(req['user']?.id, params);
+    return this.service.updateProfile(req['user']?.id, params);
   }
   /**
    * 获取当前用户信息
@@ -95,7 +95,7 @@ export class UserController {
    */
   @ApiOperation({ summary: '获取当前用户信息' })
   @Post('getProfile')
-  async getProfile(@Request() req: Request): Promise<UserEntity> {
+  getProfile(@Request() req: Request): Promise<UserEntity> {
     return this.service.get(req['user']?.id);
   }
   /**

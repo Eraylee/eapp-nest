@@ -4,7 +4,7 @@ import { ApiOperation, ApiTags, ApiBearerAuth } from '@nestjs/swagger';
 import { RoleEntity } from './role.entity';
 import { PaginationResult } from '@/interfaces/result.interface';
 import { QueryRoleDto, CreateRoleDto, UpdateRoleDto } from './role.dto';
-import { DeleteDto } from '@/common/base/base.dto';
+import { DeletBatcheDto } from '@/common/base/base.dto';
 import { DeleteResult } from 'typeorm';
 
 @Controller()
@@ -18,8 +18,8 @@ export class RoleController {
    */
   @ApiOperation({ summary: '通过id查询' })
   @Get('queryById')
-  async queryById(@Query('id') id: number): Promise<RoleEntity> {
-    return await this.service.get(id);
+  queryById(@Query('id') id: number): Promise<RoleEntity> {
+    return this.service.get(id);
   }
   /**
    * 分页查询
@@ -27,18 +27,18 @@ export class RoleController {
    */
   @ApiOperation({ summary: '分页查询' })
   @Get('queryPage')
-  async queryPage(
+  queryPage(
     @Query() params: QueryRoleDto,
   ): Promise<PaginationResult<RoleEntity>> {
-    return await this.service.getPage(params);
+    return this.service.getPage(params);
   }
   /**
    * 查询所有
    */
   @ApiOperation({ summary: '查询所有' })
   @Get('queryAll')
-  async queryAll(): Promise<RoleEntity[]> {
-    return await this.service.getAll();
+  queryAll(): Promise<RoleEntity[]> {
+    return this.service.getAll();
   }
   /**
    * 新增
@@ -46,8 +46,8 @@ export class RoleController {
    */
   @ApiOperation({ summary: '新增' })
   @Post('create')
-  async create(@Body() params: CreateRoleDto): Promise<RoleEntity> {
-    return await this.service.createRole(params);
+  create(@Body() params: CreateRoleDto): Promise<RoleEntity> {
+    return this.service.createRole(params);
   }
   /**
    * 修改
@@ -55,16 +55,16 @@ export class RoleController {
    */
   @ApiOperation({ summary: '修改' })
   @Post('update')
-  async update(@Body() params: UpdateRoleDto): Promise<RoleEntity> {
-    return await this.service.updateRole(params);
+  update(@Body() params: UpdateRoleDto): Promise<RoleEntity> {
+    return this.service.updateRole(params);
   }
   /**
-   * 删除
+   * 批量删除
    * @param params
    */
-  @ApiOperation({ summary: '删除' })
-  @Post('delete')
-  async delete(@Body() params: DeleteDto): Promise<DeleteResult> {
-    return await this.service.delete(params);
+  @ApiOperation({ summary: '批量删除' })
+  @Post('deleteBatch')
+  deleteBatch(@Body() params: DeletBatcheDto): Promise<DeleteResult> {
+    return this.service.deleteBatch(params);
   }
 }

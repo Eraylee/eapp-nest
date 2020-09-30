@@ -7,8 +7,14 @@ import {
   TreeParent,
 } from 'typeorm';
 import { BaseEntity } from '@/common/base/base.entity';
-import { Visiable, MenuTypes } from '@/enums';
+import { Status } from '@/enums';
 import { RoleEntity } from '../role/role.entity';
+
+export enum MenuTypes {
+  Layout = 1,
+  Api,
+  Route,
+}
 
 @Entity('menu')
 @Tree('materialized-path')
@@ -22,14 +28,14 @@ export class MenuEntity extends BaseEntity {
   @Column({ type: 'varchar', length: 50, nullable: true })
   icon: string;
 
-  @Column({ type: 'smallint', width: 1, default: MenuTypes.LAYOUT })
+  @Column({ type: 'smallint', default: MenuTypes.Layout })
   type: MenuTypes;
 
   @Column({ type: 'varchar', length: 100, nullable: true })
   path: string;
 
-  @Column({ type: 'smallint', default: Visiable.TRUE })
-  visiable: Visiable;
+  @Column({ type: 'smallint', default: Status.Enabled })
+  visiable: Status;
 
   @ManyToMany(
     () => RoleEntity,

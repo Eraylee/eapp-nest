@@ -1,17 +1,31 @@
-import { IsArray, IsNumber, IsEnum } from 'class-validator';
+import {
+  IsArray,
+  IsNumber,
+  IsEnum,
+  IsNotEmpty,
+  IsDefined,
+} from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 import { Transform } from 'class-transformer';
-import { OrderTypes } from '@/enums';
+import { OrderTypes, Status } from '@/enums';
 
 /**
  * 批量删除
  */
-export class DeleteDto {
+export class DeletBatcheDto {
   @ApiProperty({ description: 'ids' })
   @IsArray()
   readonly ids: number[];
 }
-
+/**
+ * 删除
+ */
+export class DeleteDto {
+  @ApiProperty({ description: 'id' })
+  @IsNotEmpty()
+  @IsDefined()
+  readonly id: number;
+}
 /**
  * 分页查询
  */
@@ -32,4 +46,30 @@ export class PaginationDto {
   @ApiProperty({ required: false, description: '排序方式' })
   @IsEnum(OrderTypes)
   readonly orderType?: OrderTypes;
+}
+
+export class CreateDto {
+  @ApiProperty({
+    description: '排序',
+  })
+  sort: number;
+
+  @ApiProperty({
+    description: '状态',
+  })
+  status: Status;
+
+  @ApiProperty({
+    description: '描述',
+  })
+  description: string;
+}
+
+export class UpdateDto extends CreateDto {
+  @ApiProperty({
+    description: 'id',
+  })
+  @IsNotEmpty()
+  @IsDefined()
+  id: number;
 }

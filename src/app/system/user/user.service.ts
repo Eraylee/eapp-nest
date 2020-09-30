@@ -74,6 +74,7 @@ export class UserService extends BaseService<UserEntity> {
     email,
     phone,
     avatar,
+    userNo,
   }: UpdateUserDto): Promise<UserEntity> {
     const user = await this.repo.findOne(id);
     if (!user) {
@@ -83,7 +84,7 @@ export class UserService extends BaseService<UserEntity> {
     if (roleIds) {
       roles = await this.roleRepe.findByIds(roleIds);
     }
-    Object.assign(user, { nickname, email, phone, avatar, roles });
+    Object.assign(user, { nickname, email, phone, avatar, roles, userNo });
     return this.repo.save(user);
   }
   /**

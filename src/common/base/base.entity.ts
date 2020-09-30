@@ -5,7 +5,7 @@ import {
   DeleteDateColumn,
   Column,
 } from 'typeorm';
-import { Enabled } from '../../enums';
+import { Status } from '../../enums';
 
 export class BaseEntity {
   @PrimaryGeneratedColumn()
@@ -21,11 +21,10 @@ export class BaseEntity {
 
   @Column({
     type: 'smallint',
-    width: 1,
-    default: Enabled.TRUE,
-    comment: '是否启用',
+    default: Status.Enabled,
+    comment: '启用状态',
   })
-  enabled: number;
+  status: Status;
 
   @Column({
     type: 'varchar',
