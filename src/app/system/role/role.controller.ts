@@ -2,10 +2,10 @@ import { Controller, Get, Query, Post, Body } from '@nestjs/common';
 import { RoleService } from './role.service';
 import { ApiOperation, ApiTags, ApiBearerAuth } from '@nestjs/swagger';
 import { RoleEntity } from './role.entity';
-import { PaginationResult } from '@/interfaces/result.interface';
 import { QueryRoleDto, CreateRoleDto, UpdateRoleDto } from './role.dto';
-import { DeletBatcheDto } from '@/common/base/base.dto';
 import { DeleteResult } from 'typeorm';
+import { DeletBatcheDto } from '@/common/dtos/base.dto';
+import { PaginationResult } from '@/common/interfaces/result.interface';
 
 @Controller()
 @ApiTags('role')

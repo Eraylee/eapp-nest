@@ -7,9 +7,9 @@ import {
   CreateDataDictionaryDto,
   UpdateDataDictionaryDto,
 } from './data-dictionary.dto';
-import { PaginationResult } from '@/interfaces/result.interface';
-import { DeletBatcheDto } from '@/common/base/base.dto';
 import { DeleteResult } from 'typeorm';
+import { PaginationResult } from '@/common/interfaces/result.interface';
+import { DeletBatcheDto } from '@/common/dtos/base.dto';
 
 @Controller()
 @ApiTags('dataDictionary')

@@ -17,10 +17,10 @@ import {
   ResetPswDto,
   UpdatePswDto,
 } from './user.dto';
-import { DeletBatcheDto } from '@/common/base/base.dto';
 import { DeleteResult } from 'typeorm';
 // import { JwtAuthGuard } from '@/guards/jwt-auth.guard';
-import { PaginationResult } from '@/interfaces/result.interface';
+import { DeletBatcheDto } from '@/common/dtos/base.dto';
+import { PaginationResult } from '@/common/interfaces/result.interface';
 // import { RoleGuard } from '@/guards/role-auth.guard';
 
 @Controller()

@@ -6,8 +6,8 @@ import {
   TreeChildren,
   TreeParent,
 } from 'typeorm';
-import { BaseEntity } from '@/common/base/base.entity';
-import { Status } from '@/enums';
+import { BaseEntity } from '@/common/entities/base.entity';
+import { Status } from '@/common/enums';
 import { RoleEntity } from '../role/role.entity';
 
 export enum MenuTypes {

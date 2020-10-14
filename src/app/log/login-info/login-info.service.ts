@@ -3,9 +3,9 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { LoginInfo } from './login-info.schema';
 import { UAParser } from 'ua-parser-js';
-import { PaginationResult } from '@/interfaces/result.interface';
-import { PaginationDto } from '@/common/base/base.dto';
-import { OrderTypes } from '@/enums';
+import { PaginationResult } from '@/common/interfaces/result.interface';
+import { PaginationDto } from '@/common/dtos/base.dto';
+import { OrderTypes } from '@/common/enums';
 
 @Injectable()
 export class LoginInfoService {

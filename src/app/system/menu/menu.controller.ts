@@ -10,11 +10,11 @@ import {
 } from '@nestjs/common';
 import { ApiOperation, ApiTags, ApiBearerAuth } from '@nestjs/swagger';
 import { MenuEntity } from './menu.entity';
-import { PaginationResult } from '@/interfaces/result.interface';
-import { DeletBatcheDto } from '@/common/base/base.dto';
 import { DeleteResult } from 'typeorm';
 import { QueryMenuDto, CreateMenuDto, UpdateMenuDto } from './menu.dto';
-import { JwtAuthGuard } from '@/guards/jwt-auth.guard';
+import { PaginationResult } from '@/common/interfaces/result.interface';
+import { DeletBatcheDto } from '@/common/dtos/base.dto';
+import { JwtAuthGuard } from '@/common/guards/jwt-auth.guard';
 
 @Controller()
 @ApiTags('menu')

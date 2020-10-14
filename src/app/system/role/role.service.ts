@@ -1,14 +1,14 @@
 import { Injectable, BadRequestException } from '@nestjs/common';
-import { BaseService } from '@/common/base/base.service';
+import { CRUDService } from '@/common/services/crud.service';
 import { RoleEntity } from './role.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { UpdateRoleDto, CreateRoleDto } from './role.dto';
 import { MenuEntity } from '../menu/menu.entity';
-import { CasbinService } from '@/app/casbin/casbin.service';
+import { CasbinService } from '@/common/services/casbin.service';
 
 @Injectable()
-export class RoleService extends BaseService<RoleEntity> {
+export class RoleService extends CRUDService<RoleEntity> {
   constructor(
     @InjectRepository(RoleEntity) readonly repo: Repository<RoleEntity>,
     @InjectRepository(MenuEntity) readonly menuRepo: Repository<MenuEntity>,

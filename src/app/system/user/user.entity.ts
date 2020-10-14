@@ -1,5 +1,5 @@
 import { Column, Entity, ManyToMany, JoinTable } from 'typeorm';
-import { BaseEntity } from '@/common/base/base.entity';
+import { BaseEntity } from '@/common/entities/base.entity';
 import { RoleEntity } from '../role/role.entity';
 
 @Entity('user')

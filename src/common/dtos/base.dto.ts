@@ -7,7 +7,7 @@ import {
 } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 import { Transform } from 'class-transformer';
-import { OrderTypes, Status } from '@/enums';
+import { OrderTypes, Status } from '@/common/enums';
 
 /**
  * 批量删除

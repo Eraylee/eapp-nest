@@ -1,5 +1,5 @@
 import { Injectable, BadRequestException } from '@nestjs/common';
-import { BaseService } from '@/common/base/base.service';
+import { CRUDService } from '@/common/services/crud.service';
 import { MenuEntity } from './menu.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, TreeRepository } from 'typeorm';
@@ -7,7 +7,7 @@ import { CreateMenuDto, UpdateMenuDto } from './menu.dto';
 import { JwtPayload } from '@/app/auth/jwt-payload.interface';
 
 @Injectable()
-export class MenuService extends BaseService<MenuEntity> {
+export class MenuService extends CRUDService<MenuEntity> {
   constructor(
     @InjectRepository(MenuEntity) readonly repo: Repository<MenuEntity>,
     @InjectRepository(MenuEntity) readonly treeRepo: TreeRepository<MenuEntity>,

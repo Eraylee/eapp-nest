@@ -1,5 +1,5 @@
 import { Injectable, CanActivate, ExecutionContext } from '@nestjs/common';
-import { CasbinService } from '../app/casbin/casbin.service';
+import { CasbinService } from '../services/casbin.service';
 
 @Injectable()
 export class RoleGuard implements CanActivate {

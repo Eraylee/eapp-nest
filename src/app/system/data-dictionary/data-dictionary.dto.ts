@@ -1,6 +1,6 @@
 import { IsNotEmpty, IsDefined } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
-import { CreateDto, PaginationDto, UpdateDto } from '@/common/base/base.dto';
+import { CreateDto, PaginationDto, UpdateDto } from '@/common/dtos/base.dto';
 import { DataDictionaryEntity } from './data-dictionary.entity';
 //分页查询
 export class QueryDataDictionaryDto extends PaginationDto

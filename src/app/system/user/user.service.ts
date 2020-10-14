@@ -4,7 +4,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 // import pick from 'lodash/pick'
 import * as crypto from 'crypto';
-import { BaseService } from '@/common/base/base.service';
+import { CRUDService } from '@/common/services/crud.service';
 import {
   CreateUserDto,
   ResetPswDto,
@@ -16,7 +16,7 @@ import { RoleEntity } from '../role/role.entity';
 // import { JwtAuthGuard } from '@/guards/jwt-auth.guard';
 
 @Injectable()
-export class UserService extends BaseService<UserEntity> {
+export class UserService extends CRUDService<UserEntity> {
   constructor(
     @InjectRepository(UserEntity) readonly repo: Repository<UserEntity>,
     @InjectConfig() private readonly config: ConfigService,

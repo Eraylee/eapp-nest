@@ -8,7 +8,7 @@ import { routes } from './app.routes';
 import { SystemModule } from './system/system.model';
 import { LogModule } from './log/log.model';
 import { AuthModule } from './auth/auth.module';
-import { CasbinModule } from './casbin/casbin.module';
+import { CasbinModule } from '@/common/modules/casbin.module';
 
 const ENV = process.env.NODE_ENV;
 
@@ -30,6 +30,6 @@ const ENV = process.env.NODE_ENV;
     LogModule,
     AuthModule,
     CasbinModule,
-  ],                                      
+  ],
 })
 export class AppModule {}

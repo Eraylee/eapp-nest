@@ -1,6 +1,6 @@
 import { IsNotEmpty, IsArray, IsDefined } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
-import { CreateDto, PaginationDto, UpdateDto } from '@/common/base/base.dto';
+import { CreateDto, PaginationDto, UpdateDto } from '@/common/dtos/base.dto';
 import { RoleEntity } from './role.entity';
 
 //分页查询

@@ -2,8 +2,8 @@ import { Controller, Get, Query } from '@nestjs/common';
 import { LoginInfoService } from './login-info.service';
 import { ApiOperation, ApiTags, ApiBearerAuth } from '@nestjs/swagger';
 import { LoginInfo } from './login-info.schema';
-import { PaginationResult } from '@/interfaces/result.interface';
-import { PaginationDto } from '@/common/base/base.dto';
+import { PaginationResult } from '@/common/interfaces/result.interface';
+import { PaginationDto } from '@/common/dtos/base.dto';
 
 @Controller()
 @ApiTags('loginInfo')

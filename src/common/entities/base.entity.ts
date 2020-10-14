@@ -1,3 +1,4 @@
+import { Status } from '@/common/enums';
 import {
   CreateDateColumn,
   PrimaryGeneratedColumn,
@@ -5,7 +6,6 @@ import {
   DeleteDateColumn,
   Column,
 } from 'typeorm';
-import { Status } from '../../enums';
 
 export class BaseEntity {
   @PrimaryGeneratedColumn()

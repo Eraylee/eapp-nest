@@ -7,7 +7,7 @@ import {
 } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 import { UserEntity } from './user.entity';
-import { CreateDto, PaginationDto, UpdateDto } from '@/common/base/base.dto';
+import { CreateDto, PaginationDto, UpdateDto } from '@/common/dtos/base.dto';
 // 分页查询
 export class QueryUserDto extends PaginationDto implements Partial<UserEntity> {
   @ApiProperty({

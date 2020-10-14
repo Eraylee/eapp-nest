@@ -1,9 +1,9 @@
 import { DeleteResult, Repository, Like } from 'typeorm';
-import { PaginationDto, DeletBatcheDto } from './base.dto';
-import { PaginationResult } from '../../interfaces/result.interface';
-import { OrderTypes } from '../../enums';
+import { PaginationResult } from '../interfaces/result.interface';
+import { OrderTypes } from '../enums';
+import { DeletBatcheDto, PaginationDto } from '@/common/dtos/base.dto';
 
-export abstract class BaseService<T> {
+export abstract class CRUDService<T> {
   protected constructor(protected readonly repo: Repository<T>) {}
   /**
    * 查询单条数据

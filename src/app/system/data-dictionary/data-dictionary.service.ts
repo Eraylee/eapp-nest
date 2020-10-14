@@ -1,5 +1,5 @@
 import { Injectable, BadRequestException } from '@nestjs/common';
-import { BaseService } from '@/common/base/base.service';
+import { CRUDService } from '@/common/services/crud.service';
 import { DataDictionaryEntity } from './data-dictionary.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, TreeRepository } from 'typeorm';
@@ -9,7 +9,7 @@ import {
 } from './data-dictionary.dto';
 
 @Injectable()
-export class DataDictionaryService extends BaseService<DataDictionaryEntity> {
+export class DataDictionaryService extends CRUDService<DataDictionaryEntity> {
   constructor(
     @InjectRepository(DataDictionaryEntity)
     readonly repo: Repository<DataDictionaryEntity>,

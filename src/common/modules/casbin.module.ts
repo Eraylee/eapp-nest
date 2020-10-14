@@ -1,5 +1,5 @@
 import { Module, Global } from '@nestjs/common';
-import { CasbinService } from './casbin.service';
+import { CasbinService } from '../services/casbin.service';
 
 @Global()
 @Module({
